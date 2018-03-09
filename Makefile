@@ -30,7 +30,8 @@ test:
 	pytest
 
 install:
-	python setup.py install
+	python3.6 setup.py install
+	rm -rf dist
 
 build:
 	nuitka $(MAIN_FILE) $(NUITKA_OPTS) $(NUITKA_BUILD_OPTS)

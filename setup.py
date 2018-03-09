@@ -1,7 +1,9 @@
 from setuptools import setup, find_packages
 
+print(find_packages('./packages'))
+
 setup(
-    name='fruits',
+    name='fruits-game',
 
     version='0.0.1',
 
@@ -13,7 +15,8 @@ setup(
 
     author_email='pypa-dev@googlegroups.com',
 
-    packages=find_packages('./packages'),
+    packages=find_packages('packages'),
+    package_dir={'': 'packages'},
 
     install_requires=[
         'pygame'
