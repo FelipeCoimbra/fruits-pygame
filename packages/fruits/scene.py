@@ -1,13 +1,12 @@
 from abc import ABC, abstractmethod
 import fruits.command
 
-
 class Scene(ABC):
 
     def __init__(self) -> None:
         self._enable_user_commands = True
-        self._world_state = None
-        self._game_objects = {}
+        self._done = False
+        self._world = None
 
     def enable_user_commands(self, enable) -> None:
         self._enable_user_commands = enable
@@ -16,11 +15,27 @@ class Scene(ABC):
     def init(self) -> None:
         pass
 
+    def update(self, user_commands, engine=None) -> None:
+        self._user_update(user_commands)
+        if engine is not None:
+            self._apply_physics(engine)
+        self._update_final_state()
+
+    def done(self) -> bool:
+        return self._done
+
     @abstractmethod
-    def update(self, user_commands) -> None:
+    def _user_update(self, user_commands) -> None:
         pass
 
-    def apply_physics(self, engine):
+    def _apply_physics(self, engine) -> None:
+        pass
+
+    @abstractmethod
+    def _update_final_state(self) -> None:
+        pass
+
+    def exit_scene(self) -> '':
         pass
 
 
@@ -32,7 +47,7 @@ class MainScene(Scene):
     def init(self) -> None:
         pass
 
-    def update(self, user_commands) -> None:
+    def _user_update(self, user_commands) -> None:
         if self._enable_user_commands:
             if user_commands.get(fruits.command.Command.UP) is not None:
                 c = user_commands.get(fruits.command.Command.UP).get_count()
@@ -48,3 +63,8 @@ class MainScene(Scene):
             if user_commands.get(fruits.command.Command.ESCAPE) is not None:
                 print("PRESSED ESC")
 
+    def _apply_physics(self, engine) -> None:
+        pass
+
+    def _update_final_state(self) -> None:
+        pass
