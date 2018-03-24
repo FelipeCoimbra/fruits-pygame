@@ -32,6 +32,7 @@ class FruitsGame(object):
             background.draw_on(gameScreen)
             terrain.draw_on(gameScreen)
 
+
             pygame.display.update()
 
     def quit(self) -> None:

@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
 import fruits.command
+import fruits.world
+import fruits.shared_preferences as shared
+import fruits.game_event
 
 class Scene(ABC):
 
@@ -7,6 +10,7 @@ class Scene(ABC):
         self._enable_user_commands = True
         self._done = False
         self._world = None
+        self._event_handler = None
 
     def enable_user_commands(self, enable) -> None:
         self._enable_user_commands = enable
@@ -43,11 +47,17 @@ class MainScene(Scene):
 
     def __init__(self) -> None:
         super(MainScene, self).__init__()
+        self.__background = fruits.background.Background('blue-background.png',
+                                                         (shared.window_width, shared.window_height))
+        self._world = fruits.world.FruitsWorld()
+        self._event_handler = fruits.game_event.EventHandler()
 
     def init(self) -> None:
         pass
 
     def _user_update(self, user_commands) -> None:
+        self._event_handler.notify_commands()
+
         if self._enable_user_commands:
             if user_commands.get(fruits.command.Command.UP) is not None:
                 c = user_commands.get(fruits.command.Command.UP).get_count()
