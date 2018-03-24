@@ -1,6 +1,9 @@
 import pygame
 import fruits.input
 import fruits.control_room
+from fruits.background import Background
+from fruits.terrain import Terrain
+
 
 class FruitsGame(object):
     def __init__(self, main_window) -> None:
@@ -10,17 +13,24 @@ class FruitsGame(object):
 
     def loop(self) -> None:
         clock = pygame.time.Clock()
+        x, y = self.main_window.get_size()
+        background = Background('blue-background.png', (x, y))
+        terrain = Terrain('terrain.png', (0, 0))
+
+        gameScreen = pygame.display.get_surface()
 
         while True:
             delta = clock.tick(60)
 
-            quit_events = pygame.event.get(pygame.QUIT)
-            if len(quit_events) > 0:
+            if len(pygame.event.get(pygame.QUIT)) > 0:
                     return
 
             self.__input_handler.update_by_user_input(pygame.event.get())
 
             self.__scene_manager.manage(self.__input_handler.get_user_commands())
+
+            background.draw_on(gameScreen)
+            terrain.draw_on(gameScreen)
 
             pygame.display.update()
 

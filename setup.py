@@ -19,7 +19,8 @@ setup(
     package_dir={'': 'packages'},
 
     install_requires=[
-        'pygame'
+        'pygame',
+        'cytoolz'
         ],
 
     extras_require={
