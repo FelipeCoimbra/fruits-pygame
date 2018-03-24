@@ -9,12 +9,12 @@ class World(ABC):
     def __init__(self):
         self._drawables = []
 
-    @abstractmethod
-    def instantiate(self, game_object):
-        pass
+    def register(self, game_object):
+        self._register_drawable(game_object)
 
     def _register_drawable(self, drawable):
-        self._drawables.append(drawable)
+        if drawable.mesh is not None:
+            self._drawables.append(drawable)
 
     def get_drawables(self):
         return self._drawables
@@ -22,11 +22,11 @@ class World(ABC):
 
 class FruitsWorld(World):
 
-    def __init__(self, terrain):
+    def __init__(self) -> None:
         super(FruitsWorld, self).__init__()
-        self.__terrain = terrain
-        self._register_drawable(terrain)
+        # TODO: Create TerrainManager
+        self.__terrain = fruits.terrain.Terrain('terrain.png',
+                                                (shared.window_width/2, shared.window_height/2))
+        self.register(self.__terrain)
 
-    def instantiate(self, game_object):
-        pass
 

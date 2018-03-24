@@ -8,12 +8,12 @@ import fruits.game_event
 
 
 class Scene(ABC):
-    def __init__(self) -> None:
+    def __init__(self, world, background=None) -> None:
         self._enable_user_commands = True
         self._done = False
-        self._background = None
-        self._world = None
-        self._event_handler = None
+        self._event_handler = fruits.game_event.EventHandler()
+        self._background = background
+        self._world = world
 
     def enable_user_commands(self, enable) -> None:
         self._enable_user_commands = enable
@@ -54,33 +54,15 @@ class Scene(ABC):
 
 class MainScene(Scene):
     def __init__(self) -> None:
-        super(MainScene, self).__init__()
-        self._background = fruits.background.Background('blue-background.png',
-                                                        (shared.window_width, shared.window_height))
-        self._world = fruits.world.FruitsWorld(fruits.terrain.Terrain('terrain.png', (shared.window_width/2,
-                                                                                      shared.window_height/2)))
-        self._event_handler = fruits.game_event.EventHandler()
+        super(MainScene, self).__init__(fruits.world.FruitsWorld(),
+                                        fruits.background.Background('blue-background.png'))
 
     def init(self) -> None:
         pass
 
     def _user_update(self, user_commands) -> None:
-        self._event_handler.notify_commands()
-
         if self._enable_user_commands:
-            if user_commands.get(fruits.command.Command.UP) is not None:
-                c = user_commands.get(fruits.command.Command.UP).count
-                print("PRESSED UP", c, "times")
-            if user_commands.get(fruits.command.Command.DOWN) is not None:
-                print("PRESSED DOWN")
-            if user_commands.get(fruits.command.Command.LEFT) is not None:
-                print("PRESSED LEFT")
-            if user_commands.get(fruits.command.Command.RIGHT) is not None:
-                print("PRESSED RIGHT")
-            if user_commands.get(fruits.command.Command.SPACE) is not None:
-                print("PRESSED SPACE")
-            if user_commands.get(fruits.command.Command.ESCAPE) is not None:
-                print("PRESSED ESC")
+            self._event_handler.notify_commands()
 
     def _apply_physics(self, engine) -> None:
         pass
@@ -89,11 +71,12 @@ class MainScene(Scene):
         pass
 
     def draw_background(self, screen) -> None:
-        if self._background is not None:
-            self._background.draw_on(screen)
+        if self._background is not None and self._background.mesh is not None:
+            self._background.mesh.draw_on(screen)
 
     def draw_world(self, screen) -> None:
         if self._world is not None:
             drawables = self._world.get_drawables()
             for drawable in drawables:
-                drawable.draw_on(screen)
+                if drawable.mesh is not None:
+                    drawable.mesh.draw_on(screen)
