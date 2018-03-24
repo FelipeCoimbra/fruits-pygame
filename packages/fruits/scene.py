@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 import fruits.command
 
-class Scene(ABC):
 
+class Scene(ABC):
     def __init__(self) -> None:
         self._enable_user_commands = True
         self._done = False
@@ -40,7 +40,6 @@ class Scene(ABC):
 
 
 class MainScene(Scene):
-
     def __init__(self) -> None:
         super(MainScene, self).__init__()
 
@@ -50,8 +49,8 @@ class MainScene(Scene):
     def _user_update(self, user_commands) -> None:
         if self._enable_user_commands:
             if user_commands.get(fruits.command.Command.UP) is not None:
-                c = user_commands.get(fruits.command.Command.UP).get_count()
-                print("PRESSED UP " + str(c) + "times")
+                c = user_commands.get(fruits.command.Command.UP).count
+                print("PRESSED UP", c, "times")
             if user_commands.get(fruits.command.Command.DOWN) is not None:
                 print("PRESSED DOWN")
             if user_commands.get(fruits.command.Command.LEFT) is not None:

@@ -17,3 +17,10 @@ class Command:
     def increment_count(self):
         self.count = self.count + 1
 
+    @property
+    def count(self):
+        return self.__frame_count
+
+    @count.setter
+    def count(self, value):
+        self.__frame_count = value
