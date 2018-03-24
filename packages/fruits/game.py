@@ -18,22 +18,9 @@ class FruitsGame(object):
             if len(quit_events) > 0:
                     return
 
-            self.__input_handler.update_user_command(pygame.event.get())
+            self.__input_handler.update_by_user_input(pygame.event.get())
 
             self.__scene_manager.manage(self.__input_handler.get_user_commands())
-
-            '''
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        print("Space bar pressed down.")
-                    elif event.key == pygame.K_ESCAPE:
-                        print("Escape key pressed down.")
-                elif event.type == pygame.KEYUP:
-                    if event.key == pygame.K_SPACE:
-                        print("Space bar released.")
-                    elif event.key == pygame.K_ESCAPE:
-                        print("Escape key released.")'''
 
             pygame.display.update()
 

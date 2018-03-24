@@ -7,6 +7,7 @@ class Scene(ABC):
     def __init__(self) -> None:
         self._enable_user_commands = True
         self._world_state = None
+        self._game_objects = {}
 
     def enable_user_commands(self, enable) -> None:
         self._enable_user_commands = enable
@@ -34,7 +35,8 @@ class MainScene(Scene):
     def update(self, user_commands) -> None:
         if self._enable_user_commands:
             if user_commands.get(fruits.command.Command.UP) is not None:
-                print("PRESSED UP")
+                c = user_commands.get(fruits.command.Command.UP).get_count()
+                print("PRESSED UP " + str(c) + "times")
             if user_commands.get(fruits.command.Command.DOWN) is not None:
                 print("PRESSED DOWN")
             if user_commands.get(fruits.command.Command.LEFT) is not None:

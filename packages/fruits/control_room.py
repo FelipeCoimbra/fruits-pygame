@@ -1,5 +1,6 @@
 import fruits.scene
 
+
 class SceneManager:
 
     def __init__(self) -> None:
@@ -9,6 +10,7 @@ class SceneManager:
 
     def __init_first_scene(self) -> None:
         self.__scene = fruits.scene.MainScene()
+        self.__scene.init()
 
     def manage(self, user_commands) -> None:
         if self.__scene is None:
