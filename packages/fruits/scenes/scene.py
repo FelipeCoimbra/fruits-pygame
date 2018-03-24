@@ -51,26 +51,32 @@ class Scene(ABC):
 
     @abstractmethod
     def _user_update(self, user_commands) -> None:
+        # Updates world with User Input Commands
         pass
 
     def _apply_physics(self, engine) -> None:
+        # Updates world with constraints of a physics engine
         pass
 
     @abstractmethod
     def _update_final_state(self) -> None:
+        # Update match general state after User and Physics updates
         pass
 
     @abstractmethod
     def _enqueue_next_scene(self) -> None:
+        # Enqueue next scene depending on current world state
         pass
 
     def next_scene(self) -> '':
         return self._enqueued_scene
 
     def draw_background(self, screen) -> None:
+        # Draws the Scene background in a given screen
         pass
 
     def draw_world(self, screen) -> None:
+        # Draws each of world game_objects' meshes in a given screen
         pass
 
 

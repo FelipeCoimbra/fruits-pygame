@@ -28,10 +28,6 @@ class EventHandler:
             subscriptions = self.__subscriptions.get(event)
             print('Event: %15s - Subscriptions: %s' % (event, subscriptions))
 
-            if event == Command.ESCAPE:
-                pygame.quit()
-                exit(0)
-
             if subscriptions is not None:
                 self.publish_event(event, subscriptions)
 
