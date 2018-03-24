@@ -4,12 +4,14 @@ from typing import Tuple
 import pygame
 
 from fruits.utils import load_image
+from fruits.game_entity import GameEntity
 
 
-class GameObject(pygame.sprite.Sprite, abc.ABC):
+class GameObject(GameEntity, pygame.sprite.Sprite, abc.ABC):
     def __init__(self,
                  position: Tuple[int, int],
                  speed: float=None) -> None:
+        GameEntity.__init__(self)
         pygame.sprite.Sprite.__init__(self)
 
         self.position = position

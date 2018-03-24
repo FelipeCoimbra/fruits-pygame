@@ -4,6 +4,7 @@ import pygame
 
 from fruits.command import Command
 from fruits.controllers.controller import Controller
+from fruits.game_entity import GameEntity
 
 
 class EventHandler:
@@ -11,8 +12,12 @@ class EventHandler:
         self.__subscriptions: Dict[int, List[Controller]] = {}
         self.__hold_subscriptions: Dict[int, List[Controller]] = {}
 
-    def subscribe_controller(self, controller: Controller) -> None:
-        for event in controller.listening_events:
+    def subscribe_entity(self, entity: GameEntity):
+        if entity.controller is not None:
+            self.__subscribe_controller(entity.controller)
+
+    def __subscribe_controller(self, controller: Controller) -> None:
+        for event in controller.listening_events():
             if self.__subscriptions.get(event):
                 self.__subscriptions[event].append(controller)
             else:
