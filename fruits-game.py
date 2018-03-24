@@ -1,15 +1,16 @@
 import pygame
 import fruits.game
+from pygame import DOUBLEBUF, HWSURFACE
 
 
-WIDTH = 800
-HEIGHT = 600
+WIDTH = 1280
+HEIGHT = 640
 
 
 def main():
     pygame.init()
 
-    main_window = pygame.display.set_mode((WIDTH, HEIGHT))
+    main_window = pygame.display.set_mode((WIDTH, HEIGHT), DOUBLEBUF | HWSURFACE)
     pygame.display.set_caption('Fruits')
 
     fruits_game = fruits.game.FruitsGame(main_window)
