@@ -55,22 +55,7 @@ class MainScene(Scene):
         pass
 
     def _user_update(self, user_commands) -> None:
-        self._event_handler.notify_commands()
-
-        if self._enable_user_commands:
-            if user_commands.get(fruits.command.Command.UP) is not None:
-                c = user_commands.get(fruits.command.Command.UP).count
-                print("PRESSED UP", c, "times")
-            if user_commands.get(fruits.command.Command.DOWN) is not None:
-                print("PRESSED DOWN")
-            if user_commands.get(fruits.command.Command.LEFT) is not None:
-                print("PRESSED LEFT")
-            if user_commands.get(fruits.command.Command.RIGHT) is not None:
-                print("PRESSED RIGHT")
-            if user_commands.get(fruits.command.Command.SPACE) is not None:
-                print("PRESSED SPACE")
-            if user_commands.get(fruits.command.Command.ESCAPE) is not None:
-                print("PRESSED ESC")
+        self._event_handler.process_events(user_commands)
 
     def _apply_physics(self, engine) -> None:
         pass
