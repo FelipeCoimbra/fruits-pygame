@@ -15,7 +15,7 @@ class FruitsGame(object):
         clock = pygame.time.Clock()
         x, y = self.main_window.get_size()
         background = Background('blue-background.png', (x, y))
-        terrain = Terrain('terrain.png', (0, 0))
+        terrain = Terrain('terrain.png', (x/2, y/2))
 
         gameScreen = pygame.display.get_surface()
 
@@ -27,7 +27,7 @@ class FruitsGame(object):
 
             self.__input_handler.update_user_command(pygame.event.get())
 
-            # self.__control_room.manage(self.__input_handler.get_user_commands())
+            self.__control_room.manage(self.__input_handler.user_commands)
 
             '''
             for event in pygame.event.get():

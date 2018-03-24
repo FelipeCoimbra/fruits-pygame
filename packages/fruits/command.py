@@ -15,11 +15,3 @@ class Command:
 
     def increment_count(self):
         self.count = self.count + 1
-
-    def get_action(self):
-        return self.action
-
-    def get_count(self):
-        return self.count
-
-
