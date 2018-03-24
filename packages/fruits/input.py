@@ -1,14 +1,15 @@
+import typing
 import pygame
 import fruits.command
 
 class InputHandler:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.__current_commands = {}
         self.__command_map = {}
         self.__init_default_commandmap()
 
-    def __init_default_commandmap(self):
+    def __init_default_commandmap(self) -> None:
         self.__command_map[pygame.K_UP] = fruits.command.Command.UP
         self.__command_map[pygame.K_DOWN] = fruits.command.Command.UP
         self.__command_map[pygame.K_LEFT] = fruits.command.Command.LEFT
@@ -16,10 +17,10 @@ class InputHandler:
         self.__command_map[pygame.K_SPACE] = fruits.command.Command.SPACE
         self.__command_map[pygame.K_ESCAPE] = fruits.command.Command.ESCAPE
 
-    def get_user_commands(self):
+    def get_user_commands(self) -> typing.Dict[int, fruits.command.Command]:
         return self.__current_commands
 
-    def update_user_command(self, input_list):
+    def update_user_command(self, input_list) -> None:
         new_commands = {}
         for pyinput in input_list:
             if pyinput.type != pygame.KEYDOWN and pyinput.type != pygame.KEYUP:

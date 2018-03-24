@@ -6,7 +6,7 @@ class FruitsGame(object):
     def __init__(self, main_window) -> None:
         self.main_window = main_window
         self.__input_handler = fruits.input.InputHandler()
-        self.__control_room = fruits.control_room.ControlRoom()
+        self.__scene_manager = fruits.control_room.SceneManager()
 
     def loop(self) -> None:
         clock = pygame.time.Clock()
@@ -20,9 +20,7 @@ class FruitsGame(object):
 
             self.__input_handler.update_user_command(pygame.event.get())
 
-            self.__control_room.manage(self.__input_handler.get_user_commands())
-
-            self.__drawer.control
+            self.__scene_manager.manage(self.__input_handler.get_user_commands())
 
             '''
             for event in pygame.event.get():
