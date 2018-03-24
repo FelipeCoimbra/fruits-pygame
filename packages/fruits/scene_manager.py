@@ -25,4 +25,7 @@ class SceneManager:
             new_scene = self.__scene.exit()
             self.__change_scene(new_scene)
 
-
+    def draw_scene(self, screen) -> None:
+        if self.__scene is not None:
+            self.__scene.draw_background(screen)
+            self.__scene.draw_world(screen)

@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 import fruits.command
+import fruits.background
 import fruits.world
+import fruits.terrain
 import fruits.shared_preferences as shared
 import fruits.game_event
 
@@ -9,6 +11,7 @@ class Scene(ABC):
     def __init__(self) -> None:
         self._enable_user_commands = True
         self._done = False
+        self._background = None
         self._world = None
         self._event_handler = None
 
@@ -42,13 +45,20 @@ class Scene(ABC):
     def exit_scene(self) -> '':
         pass
 
+    def draw_background(self, screen) -> None:
+        pass
+
+    def draw_world(self, screen) -> None:
+        pass
+
 
 class MainScene(Scene):
     def __init__(self) -> None:
         super(MainScene, self).__init__()
-        self.__background = fruits.background.Background('blue-background.png',
-                                                         (shared.window_width, shared.window_height))
-        self._world = fruits.world.FruitsWorld()
+        self._background = fruits.background.Background('blue-background.png',
+                                                        (shared.window_width, shared.window_height))
+        self._world = fruits.world.FruitsWorld(fruits.terrain.Terrain('terrain.png', (shared.window_width/2,
+                                                                                      shared.window_height/2)))
         self._event_handler = fruits.game_event.EventHandler()
 
     def init(self) -> None:
@@ -62,3 +72,13 @@ class MainScene(Scene):
 
     def _update_final_state(self) -> None:
         pass
+
+    def draw_background(self, screen) -> None:
+        if self._background is not None:
+            self._background.draw_on(screen)
+
+    def draw_world(self, screen) -> None:
+        if self._world is not None:
+            drawables = self._world.get_drawables()
+            for drawable in drawables:
+                drawable.draw_on(screen)
