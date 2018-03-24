@@ -4,8 +4,8 @@ import fruits.world
 import fruits.shared_preferences as shared
 import fruits.game_event
 
-class Scene(ABC):
 
+class Scene(ABC):
     def __init__(self) -> None:
         self._enable_user_commands = True
         self._done = False
@@ -44,7 +44,6 @@ class Scene(ABC):
 
 
 class MainScene(Scene):
-
     def __init__(self) -> None:
         super(MainScene, self).__init__()
         self.__background = fruits.background.Background('blue-background.png',
@@ -60,8 +59,8 @@ class MainScene(Scene):
 
         if self._enable_user_commands:
             if user_commands.get(fruits.command.Command.UP) is not None:
-                c = user_commands.get(fruits.command.Command.UP).get_count()
-                print("PRESSED UP " + str(c) + "times")
+                c = user_commands.get(fruits.command.Command.UP).count
+                print("PRESSED UP", c, "times")
             if user_commands.get(fruits.command.Command.DOWN) is not None:
                 print("PRESSED DOWN")
             if user_commands.get(fruits.command.Command.LEFT) is not None:

@@ -14,13 +14,13 @@ class Command:
         self.__frame_count = 1
         self.__action = action
 
-    def increment_count(self) -> None:
-        self.__frame_count = self.__frame_count + 1
+    def increment_count(self):
+        self.count = self.count + 1
 
-    def get_action(self) -> int:
-        return self.__action
-
-    def get_count(self) -> int:
+    @property
+    def count(self):
         return self.__frame_count
 
-
+    @count.setter
+    def count(self, value):
+        self.__frame_count = value
