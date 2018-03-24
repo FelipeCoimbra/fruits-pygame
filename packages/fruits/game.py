@@ -19,12 +19,10 @@ class FruitsGame(object):
         while True:
             delta = clock.tick(60)
 
-            if len(pygame.event.get(pygame.QUIT)) > 0:
-                    return
+            commands = (self.__input_handler
+                            .events_to_commands(pygame.event.get()))
 
-            self.__input_handler.update_by_user_input(pygame.event.get())
-
-            self.__scene_manager.manage(self.__input_handler.user_commands)
+            self.__scene_manager.manage(commands)
 
             self.__scene_manager.draw_scene(game_screen)
 

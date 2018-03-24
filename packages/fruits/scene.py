@@ -62,7 +62,7 @@ class MainScene(Scene):
 
     def _user_update(self, user_commands) -> None:
         if self._enable_user_commands:
-            self._event_handler.notify_commands()
+        self._event_handler.process_events(user_commands)
 
     def _apply_physics(self, engine) -> None:
         pass
