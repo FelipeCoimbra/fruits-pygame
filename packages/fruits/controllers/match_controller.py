@@ -8,6 +8,7 @@ class MatchController(Controller):
         super(MatchController, self).__init__(match_entity)
         self.events = [Command.QUIT, Command.TAB_START]
 
+    @property
     def listening_events(self):
         return self.events
 

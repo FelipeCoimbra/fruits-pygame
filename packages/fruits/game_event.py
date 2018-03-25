@@ -18,7 +18,7 @@ class EventHandler:
             self.__subscribe_controller(entity.controller)
 
     def __subscribe_controller(self, controller: Controller) -> None:
-        for event in controller.listening_events():
+        for event in controller.listening_events:
             if self.__subscriptions.get(event):
                 self.__subscriptions[event].append(controller)
             else:
