@@ -13,7 +13,7 @@ class World(ABC):
         self._register_drawable(game_object)
 
     def _register_drawable(self, drawable):
-        if drawable.mesh is not None:
+        if drawable is not None:
             self._drawables.append(drawable)
 
     def get_drawables(self):

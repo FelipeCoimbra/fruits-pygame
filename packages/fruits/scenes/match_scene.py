@@ -40,12 +40,12 @@ class MatchScene(Scene):
         self._enqueued_scene = None
 
     def draw_background(self, screen) -> None:
-        if self._background is not None and self._background.mesh is not None:
-            self._background.mesh.draw_on(screen)
+        if self._background is not None and self._background.image is not None:
+            self._background.draw_on(screen)
 
     def draw_world(self, screen) -> None:
         if self._world is not None:
             drawables = self._world.get_drawables()
             for drawable in drawables:
-                if drawable.mesh is not None:
-                    drawable.mesh.draw_on(screen)
+                if drawable.image is not None:
+                    drawable.draw_on(screen)
