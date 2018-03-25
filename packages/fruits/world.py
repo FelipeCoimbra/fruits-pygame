@@ -30,7 +30,7 @@ class World(ABC):
     def update_current_fruit(self):
         if self.current_fruit == -1:
             self.current_fruit = randint(0, len(self.fruits) - 1)
-            self.fruits.sprites()[self.current_fruit].is_selected = True
+            self.fruits.sprites()[self.current_fruit].update_selected_status()
             return
 
         if len(self.fruits) < 2:
@@ -40,8 +40,8 @@ class World(ABC):
         while i != self.current_fruit:
             i = randint(0, len(self.fruits) - 1)
 
-        self.fruits.sprites()[i].is_selected = False
-        self.fruits.sprites()[(i + 1) % len(self.fruits)].is_selected = True
+        self.fruits.sprites()[i].update_selected_status()
+        self.fruits.sprites()[(i + 1) % len(self.fruits)].update_selected_status()
         self.current_fruit = (i + 1) % len(self.fruits)
 
 
@@ -54,16 +54,22 @@ class FruitsWorld(World):
 
         self.__terrain = fruits.terrain.Terrain('terrain.png',
                                                 (shared.window_width/2, shared.window_height/2))
-        fruit1 = fruits.fruit.Fruit('watermellon-happy.png', position=(randint(50,shared.window_width - 50),
+        fruit1 = fruits.fruit.Fruit('tomato-sad.png', position=(randint(50,shared.window_width - 50),
                                                                        randint(50,shared.window_height - 50)))
-        fruit2 = fruits.fruit.Fruit('tomato-angry.png', position=(randint(50,shared.window_width - 50),
+        fruit2 = fruits.fruit.Fruit('tomato-sad.png', position=(randint(50,shared.window_width - 50),
                                                                        randint(50,shared.window_height - 50)))
-        fruit3 = fruits.fruit.Fruit('tomato-happy.png', position=(randint(50,shared.window_width - 50),
+        fruit3 = fruits.fruit.Fruit('tomato-sad.png', position=(randint(50,shared.window_width - 50),
+                                                                       randint(50,shared.window_height - 50)))
+        fruit4 = fruits.fruit.Fruit('tomato-sad.png', position=(randint(50,shared.window_width - 50),
+                                                                       randint(50,shared.window_height - 50)))
+        fruit5 = fruits.fruit.Fruit('tomato-sad.png', position=(randint(50,shared.window_width - 50),
                                                                        randint(50,shared.window_height - 50)))
         self.register(self.__terrain)
         self.register(fruit1)
         self.register(fruit2)
         self.register(fruit3)
+        self.register(fruit4)
+        self.register(fruit5)
 
         self.update_current_fruit()
 

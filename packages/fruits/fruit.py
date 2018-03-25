@@ -31,3 +31,11 @@ class Fruit(GameObject):
             self.rect.centerx = (self.rect.centerx + horizontal) % shared.window_width
             self.rect.centery = (self.rect.centery + vertical) % shared.window_height
             self.mask = pygame.mask.from_surface(self.image)
+
+    def update_selected_status(self):
+        if self.is_selected:
+            self.is_selected = False
+            self.update_image(self.image_path.replace('happy', 'sad'))
+        else:
+            self.is_selected = True
+            self.update_image(self.image_path.replace('sad', 'happy'))

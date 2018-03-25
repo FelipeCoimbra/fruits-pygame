@@ -17,8 +17,8 @@ class Mesh(pygame.sprite.Sprite, abc.ABC):
         self.orientation = orientation
         self.speed = speed
         self.__current_image = load_image(image)
-        self.__current_image_path = 'image'
-        self.__loaded_images = {'image': self.__current_image}
+        self.__current_image_path = image
+        self.__loaded_images = {image: self.__current_image}
         self.rect = self.__current_image.get_rect()
         self.rect.centerx = position[0]
         self.rect.centery = position[1]
@@ -27,6 +27,10 @@ class Mesh(pygame.sprite.Sprite, abc.ABC):
     @property
     def image(self) -> pygame.Surface:
         return self.__current_image
+
+    @property
+    def image_path(self) -> str:
+        return self.__current_image_path
 
     @image.setter
     def image(self, new_image: pygame.Surface) -> None:
@@ -42,6 +46,7 @@ class Mesh(pygame.sprite.Sprite, abc.ABC):
             image_surface = load_image(image)
             self.__loaded_images[image] = image_surface
             self.__current_image = image_surface
+        self.__current_image_path = image
 
 
     @property
