@@ -50,14 +50,8 @@ class Mesh(abc.ABC):
 
 class Collider(pygame.sprite.Sprite, abc.ABC):
 
-    def __init__(self, image: str) -> None:
+    def __init__(self) -> None:
         pygame.sprite.Sprite.__init__(self)
-
-        image_surface = load_image(image)
-        self.mask = pygame.mask.from_surface(image_surface)
-
-    def collided_with(self, collider: 'Collider') -> bool:
-        return bool(self.mask.overlaps(collider.mask))
 
 
 class RigidBody(abc.ABC):
