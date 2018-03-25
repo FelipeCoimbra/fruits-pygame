@@ -4,7 +4,6 @@ import fruits.scene_manager
 from fruits.background import Background
 from fruits.terrain import Terrain
 
-
 class FruitsGame(object):
     def __init__(self, main_window) -> None:
         self.main_window = main_window
@@ -22,7 +21,9 @@ class FruitsGame(object):
             commands = (self.__input_handler
                             .events_to_commands(pygame.event.get()))
 
-            self.__scene_manager.manage(commands)
+            manager_alive = self.__scene_manager.manage(commands)
+            if not manager_alive:
+                return
 
             self.__scene_manager.draw_scene(game_screen)
 
