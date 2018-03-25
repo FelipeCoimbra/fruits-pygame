@@ -21,3 +21,5 @@ class Match(GameEntity):
         # Ends match suddenly
         self.__scene.stop()
 
+    def update_current_fruit(self):
+        self.__scene._world.update_current_fruit()

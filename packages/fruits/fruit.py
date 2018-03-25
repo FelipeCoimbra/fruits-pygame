@@ -14,15 +14,19 @@ class Fruit(GameObject):
                  orientation: float = None,
                  speed: float = None) -> None:
         super(GameObject, self).__init__()
+
+        self.is_selected = False
+
         self.attach_controller(FruitController(self))
         self.set_component("Mesh", image=image, position=position, orientation=orientation, speed=speed)
         self.set_component("Collider")
-
         self.image = pygame.transform.scale(self.image, (shared.character_width, shared.character_height))
 
     def init(self) -> None:
         pass
 
     def update(self, horizontal=0, vertical=0, *args):
-        self.position = (self.position[0] + horizontal, self.position[1] + vertical)
+        if self.is_selected:
+            self.position = ((self.position[0] + horizontal) % shared.window_width,
+                             (self.position[1] + vertical) % shared.window_height)
 

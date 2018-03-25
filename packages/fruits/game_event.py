@@ -27,7 +27,7 @@ class EventHandler:
     def process_events(self, events) -> None:
         for event in events:
             subscriptions = self.__subscriptions.get(event)
-            print('Event: %15s - Subscriptions: %s' % (event, subscriptions))
+            # print('Event: %15s - Subscriptions: %s' % (event, subscriptions))
 
             if subscriptions is not None:
                 self.publish_event(event, subscriptions)
@@ -41,7 +41,7 @@ class EventHandler:
     def process_hold_events(self, events):
         for event in events:
             subscriptions = self.__subscriptions.get(event)
-            print('Event: %15s - Subscriptions: %s' % (event, subscriptions))
+            # print('Event: %15s - Subscriptions: %s' % (event, subscriptions))
 
             if subscriptions is not None:
                 self.publish_event(event, subscriptions)

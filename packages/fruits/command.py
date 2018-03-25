@@ -13,8 +13,7 @@ class Command:
     SPACE_START = 'SPACE_START'
     SPACE_END = 'SPACE_END'
     ESCAPE = 'ESCAPE'
-    TAB_START = 'TAB_START'
-    TAB_END = 'TAB_END'
+    TAB = 'TAB'
     QUIT = 'QUIT'
 
 
@@ -30,7 +29,6 @@ commands = {
     (KEYDOWN, K_SPACE): Command.SPACE_START,
     (KEYUP, K_SPACE): Command.SPACE_END,
     (KEYDOWN, K_ESCAPE): Command.ESCAPE,
-    (KEYUP, K_TAB): Command.TAB_END,
-    (KEYDOWN, K_TAB): Command.TAB_START,
+    (KEYDOWN, K_TAB): Command.TAB,
     QUIT: Command.QUIT
     }

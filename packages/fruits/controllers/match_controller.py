@@ -6,7 +6,7 @@ class MatchController(Controller):
 
     def __init__(self, match_entity):
         super(MatchController, self).__init__(match_entity)
-        self.events = [Command.QUIT, Command.TAB_START]
+        self.events = [Command.QUIT, Command.TAB]
 
     def listening_events(self):
         return self.events
@@ -14,3 +14,5 @@ class MatchController(Controller):
     def receive(self, command):
         if command == Command.QUIT:
             self.entity.interrupt()
+        if command == Command.TAB:
+            self.entity.update_current_fruit()
