@@ -17,7 +17,8 @@ class World(ABC):
         if drawable is not None:
             self._drawables.append(drawable)
 
-    def get_drawables(self):
+    @property
+    def drawables(self):
         return self._drawables
 
 
