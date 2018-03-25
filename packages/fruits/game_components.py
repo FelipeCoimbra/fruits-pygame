@@ -5,20 +5,24 @@ from fruits.utils import load_image
 from typing import Tuple
 
 
-class Mesh(abc.ABC):
+class Mesh(pygame.sprite.Sprite, abc.ABC):
 
     def __init__(self,
                  image: str,
                  position: Tuple[int, int] = None,
                  orientation: float = None,
                  speed: float = None) -> None:
+        pygame.sprite.Sprite.__init__(self)
         self.position = position
         self.orientation = orientation
         self.speed = speed
         self.__current_image = load_image(image)
         self.__current_image_path = 'image'
         self.__loaded_images = {'image': self.__current_image}
-        self.rect = self.image.get_rect()
+        self.rect = self.__current_image.get_rect()
+        self.rect.centerx = position[0]
+        self.rect.centery = position[1]
+        self.mask = pygame.mask.from_surface(self.__current_image)
 
     @property
     def image(self) -> pygame.Surface:
@@ -51,7 +55,8 @@ class Mesh(abc.ABC):
 class Collider(pygame.sprite.Sprite, abc.ABC):
 
     def __init__(self) -> None:
-        pygame.sprite.Sprite.__init__(self)
+        # pygame.sprite.Sprite.__init__(self)
+        pass
 
 
 class RigidBody(abc.ABC):

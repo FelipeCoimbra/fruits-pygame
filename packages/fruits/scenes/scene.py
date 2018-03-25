@@ -39,8 +39,10 @@ class Scene(ABC):
         # Updates Scene state
         if self.status() == Scene.ALIVE:
             self._user_update(user_commands)
+            print(self._world.catch_collisions())
             if engine is not None:
                 self._apply_physics(engine)
+
         self._update_final_state()
 
     def status(self) -> int:

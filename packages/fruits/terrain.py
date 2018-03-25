@@ -18,8 +18,14 @@ class Terrain(GameObject):
         self.position = (position[0] - .5*size[0],
                          position[1] - .5*size[1])
 
+        self.rect = self.image.get_rect()
+        self.rect.centerx = position[0]
+        self.rect.centery = position[1]
+        self.mask = pygame.mask.from_surface(self.image)
+
     def init(self) -> None:
         pass
 
-    def update(self, *args):
+    def update(self, *args) -> None:
+        self.mask = pygame.mask.from_surface(self.image)
         pass

@@ -16,7 +16,6 @@ class Fruit(GameObject):
         super(GameObject, self).__init__()
 
         self.is_selected = False
-
         self.attach_controller(FruitController(self))
         self.set_component("Mesh", image=image, position=position, orientation=orientation, speed=speed)
         self.set_component("Collider")
@@ -29,4 +28,6 @@ class Fruit(GameObject):
         if self.is_selected:
             self.position = ((self.position[0] + horizontal) % shared.window_width,
                              (self.position[1] + vertical) % shared.window_height)
-
+            self.rect.centerx = (self.rect.centerx + horizontal) % shared.window_width
+            self.rect.centery = (self.rect.centery + vertical) % shared.window_height
+            self.mask = pygame.mask.from_surface(self.image)
