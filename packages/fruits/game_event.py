@@ -12,11 +12,11 @@ class EventHandler:
         self.__hold_subscriptions: Dict[int, List[Controller]] = {}
 
     def subscribe_controller(self, controller: Controller) -> None:
-        for event in controller.listening_events:
-            if self.__subscriptions.get(event):
-                self.__subscriptions[event].append(controller)
-            else:
-                self.__subscriptions[event] = [controller]
+        for event, permanent in controller.listening_events:
+            self.add_subscription(self.__subscriptions, event, controller)
+
+            if permanent:
+                self.add_subscription(self.__hold_subscriptions, event, controller)
 
     def process_events(self, events) -> None:
         for event in events:
@@ -40,3 +40,10 @@ class EventHandler:
     def publish_event(event, subscriptions: List[Controller]) -> None:
         for subscription in subscriptions:
             subscription.receive(event)
+
+    @staticmethod
+    def add_subscription(storage, event, subscription) -> None:
+        if storage.get(event):
+            storage[event].append(subscription)
+        else:
+            storage[event] = [subscription]
