@@ -1,24 +1,25 @@
-from abc import ABC, abstractmethod
+from abc import ABC
+from typing import Iterable
+
 import fruits.background
 import fruits.terrain
 import fruits.fruit
 import fruits.shared_preferences as shared
+from fruits.game_object import GameObject
+
 
 
 class World(ABC):
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._drawables = []
 
-    def register(self, game_object):
-        self._register_drawable(game_object)
-
-    def _register_drawable(self, drawable):
-        if drawable is not None:
-            self._drawables.append(drawable)
+    def register(self, game_object: GameObject) -> None:
+        if game_object is not None:
+            self._drawables.append(game_object)
 
     @property
-    def drawables(self):
+    def drawables(self) -> Iterable[GameObject]:
         return self._drawables
 
 
