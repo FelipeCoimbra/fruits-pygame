@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List, Tuple
 
 from fruits.game_entity import GameEntity
 
@@ -10,7 +11,7 @@ class Controller(ABC):
 
     @property
     @abstractmethod
-    def listening_events(self) -> list: ...
+    def listening_events(self) -> List[str]: ...
 
     @abstractmethod
     def receive(self, command) -> None: ...

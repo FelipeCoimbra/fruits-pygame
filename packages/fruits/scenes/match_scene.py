@@ -11,7 +11,7 @@ class MatchScene(Scene):
                                          Background('blue-background.png'))
         self.__match = Match(self)
         self._event_handler.subscribe_entity(self.__match)
-        for entity in self._world.get_drawables():
+        for entity in self._world.drawables:
             self._event_handler.subscribe_entity(entity)
 
     def play(self) -> None:
@@ -47,7 +47,7 @@ class MatchScene(Scene):
 
     def draw_world(self, screen) -> None:
         if self._world is not None:
-            drawables = self._world.get_drawables()
+            drawables = self._world.drawables
             for drawable in drawables:
                 if drawable.image is not None:
                     drawable.draw_on(screen)

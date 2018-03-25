@@ -9,11 +9,11 @@ class GameObject(GameEntity, GameComponents, abc.ABC):
         GameEntity.__init__(self)
 
     @abc.abstractmethod
-    def init(self):
+    def init(self) -> None:
         pass
 
     @abc.abstractmethod
-    def update(self, *args):
+    def update(self, *args) -> None:
         pass
 
 
