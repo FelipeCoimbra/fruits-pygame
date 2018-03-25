@@ -1,5 +1,7 @@
 from fruits.game_entity import GameEntity
 from fruits.controllers.match_controller import MatchController
+from random import randint
+from fruits.fruit import Fruit
 
 
 class Match(GameEntity):
@@ -18,3 +20,4 @@ class Match(GameEntity):
     def interrupt(self):
         # Ends match suddenly
         self.__scene.stop()
+

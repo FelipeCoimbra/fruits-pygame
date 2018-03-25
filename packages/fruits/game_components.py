@@ -11,7 +11,7 @@ class Mesh(abc.ABC):
                  image: str,
                  position: Tuple[int, int] = None,
                  orientation: float = None,
-                 speed: float = None):
+                 speed: float = None) -> None:
         self.position = position
         self.orientation = orientation
         self.speed = speed
@@ -44,7 +44,7 @@ class GameComponents(RigidBody, Mesh, Collider):
 
     def set_component(self,
                       component: str,
-                      **kwargs):
+                      **kwargs) -> None:
         getattr(sys.modules[__name__], component).__init__(self, **kwargs)
         self._update_world()
 

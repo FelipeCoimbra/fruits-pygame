@@ -4,7 +4,6 @@ import fruits.scene_manager
 from fruits.background import Background
 from fruits.terrain import Terrain
 
-
 class FruitsGame(object):
     def __init__(self, main_window) -> None:
         self.main_window = main_window

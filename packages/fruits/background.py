@@ -9,6 +9,7 @@ import fruits.shared_preferences as shared
 class Background(GameObject):
     def __init__(self,
                  background_image_path: str) -> None:
+        super(GameObject, self).__init__()
         self.set_component("Mesh", image=background_image_path, position=(0, 0))
 
         self.image = pygame.transform.scale(self.image, (shared.window_width,

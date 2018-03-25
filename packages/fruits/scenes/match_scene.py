@@ -11,6 +11,8 @@ class MatchScene(Scene):
                                          Background('blue-background.png'))
         self.__match = Match(self)
         self._event_handler.subscribe_entity(self.__match)
+        for entity in self._world.get_drawables():
+            self._event_handler.subscribe_entity(entity)
 
     def play(self) -> None:
         Scene.play(self)
