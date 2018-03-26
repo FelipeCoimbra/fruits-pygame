@@ -12,6 +12,7 @@ class EventHandler:
         self.__subscriptions: Dict[str, List[Controller]] = {}
         self.__hold_subscriptions: Dict[str, List[Controller]] = {}
         self.__hold_events = set()
+        self.collision_verifier = None
 
     def subscribe_entity(self, entity: GameEntity):
         if entity.controller is not None:
@@ -46,7 +47,8 @@ class EventHandler:
             if subscriptions is not None:
                 self.publish_event(event, subscriptions)
 
-    @staticmethod
-    def publish_event(event, subscriptions: List[Controller]) -> None:
+    # @staticmethod
+    def publish_event(self, event, subscriptions: List[Controller]) -> None:
         for subscription in subscriptions:
-            subscription.receive(event)
+            if not self.collision_verifier():
+                subscription.receive(event)

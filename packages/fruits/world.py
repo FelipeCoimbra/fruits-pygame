@@ -54,16 +54,11 @@ class FruitsWorld(World):
 
         self.__terrain = fruits.terrain.Terrain('terrain.png',
                                                 (shared.window_width/2, shared.window_height/2))
-        fruit1 = fruits.fruit.Fruit('tomato-sad.png', position=(randint(50,shared.window_width - 50),
-                                                                       randint(50,shared.window_height - 50)))
-        fruit2 = fruits.fruit.Fruit('tomato-sad.png', position=(randint(50,shared.window_width - 50),
-                                                                       randint(50,shared.window_height - 50)))
-        fruit3 = fruits.fruit.Fruit('tomato-sad.png', position=(randint(50,shared.window_width - 50),
-                                                                       randint(50,shared.window_height - 50)))
-        fruit4 = fruits.fruit.Fruit('tomato-sad.png', position=(randint(50,shared.window_width - 50),
-                                                                       randint(50,shared.window_height - 50)))
-        fruit5 = fruits.fruit.Fruit('tomato-sad.png', position=(randint(50,shared.window_width - 50),
-                                                                       randint(50,shared.window_height - 50)))
+        fruit1 = fruits.fruit.Fruit('tomato-sad.png', position=(1200, 100))
+        fruit2 = fruits.fruit.Fruit('tomato-sad.png', position=(1200, 200))
+        fruit3 = fruits.fruit.Fruit('tomato-sad.png', position=(1200, 300))
+        fruit4 = fruits.fruit.Fruit('tomato-sad.png', position=(1200, 400))
+        fruit5 = fruits.fruit.Fruit('tomato-sad.png', position=(1200, 500))
         self.register(self.__terrain)
         self.register(fruit1)
         self.register(fruit2)
@@ -76,6 +71,9 @@ class FruitsWorld(World):
     def catch_fruits_terrain_collisions(self) -> None:
         if pygame.sprite.spritecollide(self.__terrain, self.fruits, False):
             collisions = pygame.sprite.spritecollide(self.__terrain, self.fruits, False, pygame.sprite.collide_mask)
-            for sprite_collided in collisions:
-                sprite_collided.update(collided=True)
+            if collisions != []:
+                for sprite_collided in collisions:
+                    sprite_collided.update(collided=True)
+                return True
+        return False
 
