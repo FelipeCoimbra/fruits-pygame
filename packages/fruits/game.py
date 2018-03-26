@@ -4,6 +4,7 @@ import fruits.scene_manager
 from fruits.background import Background
 from fruits.terrain import Terrain
 
+
 class FruitsGame(object):
     def __init__(self, main_window) -> None:
         self.main_window = main_window
@@ -16,7 +17,7 @@ class FruitsGame(object):
         game_screen = pygame.display.get_surface()
 
         while True:
-            delta = clock.tick(60)
+            clock.tick(60)
 
             commands = (self.__input_handler
                             .events_to_commands(pygame.event.get()))

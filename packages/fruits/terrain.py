@@ -8,6 +8,7 @@ from fruits.game_object import GameObject
 class Terrain(GameObject):
     def __init__(self, image: str, position: Tuple[int, int]) -> None:
         super(GameObject, self).__init__()
+
         self.set_component("Mesh", image=image, position=position)
         self.set_component("Collider")
 

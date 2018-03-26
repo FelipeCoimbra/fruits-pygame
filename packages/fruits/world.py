@@ -73,7 +73,9 @@ class FruitsWorld(World):
 
         self.update_current_fruit()
 
-    def catch_collisions(self) -> bool:
+    def catch_fruits_terrain_collisions(self) -> None:
         if pygame.sprite.spritecollide(self.__terrain, self.fruits, False):
-            return pygame.sprite.spritecollide(self.__terrain, self.fruits, False, pygame.sprite.collide_mask) != []
-        return False
+            collisions = pygame.sprite.spritecollide(self.__terrain, self.fruits, False, pygame.sprite.collide_mask)
+            for sprite_collided in collisions:
+                sprite_collided.update(collided=True)
+

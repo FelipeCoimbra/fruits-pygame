@@ -21,15 +21,28 @@ class Fruit(GameObject):
         self.set_component("Collider")
         self.image = pygame.transform.scale(self.image, (shared.character_width, shared.character_height))
 
+        self.last_movement = {'horizontal': 0, 'vertical': 0}
+
     def init(self) -> None:
         pass
 
-    def update(self, horizontal=0, vertical=0, *args):
-        if self.is_selected:
+    def update(self,
+               horizontal: int = 0,
+               vertical: int = 0,
+               collided: bool = False,
+               physics_engine: bool = False,
+               *args):
+        if self.is_selected or physics_engine:
+            if not collided:
+                self.last_movement = {'horizontal': -horizontal, 'vertical': -vertical}
+            else:
+                horizontal = self.last_movement['horizontal']
+                vertical = self.last_movement['vertical']
+
             self.position = ((self.position[0] + horizontal) % shared.window_width,
                              (self.position[1] + vertical) % shared.window_height)
-            self.rect.centerx = (self.rect.centerx + horizontal) % shared.window_width
-            self.rect.centery = (self.rect.centery + vertical) % shared.window_height
+            self.rect.centerx = self.position[0]
+            self.rect.centery = self.position[1]
             self.mask = pygame.mask.from_surface(self.image)
 
     def update_selected_status(self):
