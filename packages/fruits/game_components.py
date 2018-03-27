@@ -6,23 +6,32 @@ from typing import Tuple
 
 
 class Mesh(pygame.sprite.Sprite, abc.ABC):
-
     def __init__(self,
                  image: str,
+                 width: float,
+                 height: float,
                  position: Tuple[int, int] = None,
                  orientation: float = None,
-                 speed: float = None) -> None:
+                 vx: float = 0,
+                 vy: float = 0,
+                 ax: float = 0,
+                 ay: float = 0) -> None:
         pygame.sprite.Sprite.__init__(self)
-        self.position = position
+
         self.orientation = orientation
-        self.speed = speed
-        self.__current_image = load_image(image)
+        self.position = position
+        self.vx = vx
+        self.vy = vy
+        self.ax = ax
+        self.ay = ay
+
+        self.__current_image = pygame.transform.scale(load_image(image), (width, height))
         self.__current_image_path = image
         self.__loaded_images = {image: self.__current_image}
-        self.rect = self.__current_image.get_rect()
-        self.rect.centerx = position[0]
-        self.rect.centery = position[1]
-        self.mask = pygame.mask.from_surface(self.__current_image)
+
+        self.rect = self.image.get_rect()
+        self.rect.topleft = position
+        self.mask = pygame.mask.from_surface(self.image)
 
     @property
     def image(self) -> pygame.Surface:

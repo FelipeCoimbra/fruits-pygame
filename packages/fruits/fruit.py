@@ -10,18 +10,22 @@ import fruits.shared_preferences as shared
 class Fruit(GameObject):
     def __init__(self,
                  image: str,
-                 position: Tuple[int, int] = (0,0),
+                 position: Tuple[int, int] = (0, 0),
                  orientation: float = None,
-                 speed: float = None) -> None:
+                 vx: float = 0,
+                 vy: float = 0,
+                 ax: float = 0,
+                 ay: float = 0) -> None:
         super(GameObject, self).__init__()
 
         self.is_selected = False
-        self.attach_controller(FruitController(self))
-        self.set_component("Mesh", image=image, position=position, orientation=orientation, speed=speed)
-        self.set_component("Collider")
-        self.image = pygame.transform.scale(self.image, (shared.character_width, shared.character_height))
 
-        self.last_movement = {'horizontal': 0, 'vertical': 0}
+        self.attach_controller(FruitController(self))
+
+        self.set_component("Mesh", image=image, position=position, orientation=orientation, vx=vx, vy=vy, ax=ax, ay=ay,
+                           width=shared.character_width,height=shared.character_height)
+
+        self.last_position = self.position
 
     def init(self) -> None:
         pass
@@ -41,8 +45,9 @@ class Fruit(GameObject):
 
             self.position = ((self.position[0] + horizontal) % shared.window_width,
                              (self.position[1] + vertical) % shared.window_height)
-            self.rect.centerx = self.position[0]
-            self.rect.centery = self.position[1]
+
+            self.rect = self.image.get_rect()
+            self.rect.topleft = self.position
             self.mask = pygame.mask.from_surface(self.image)
 
     def update_selected_status(self):

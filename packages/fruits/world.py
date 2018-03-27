@@ -52,8 +52,7 @@ class FruitsWorld(World):
 
         # TODO: Create TerrainManager
 
-        self.__terrain = fruits.terrain.Terrain('terrain.png',
-                                                (shared.window_width/2, shared.window_height/2))
+        self.__terrain = fruits.terrain.Terrain('terrain.png', (0, 0))
         fruit1 = fruits.fruit.Fruit('tomato-sad.png', position=(1200, 100))
         fruit2 = fruits.fruit.Fruit('tomato-sad.png', position=(1200, 200))
         fruit3 = fruits.fruit.Fruit('tomato-sad.png', position=(1200, 300))

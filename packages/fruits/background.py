@@ -10,10 +10,8 @@ class Background(GameObject):
     def __init__(self,
                  background_image_path: str) -> None:
         super(GameObject, self).__init__()
-        self.set_component("Mesh", image=background_image_path, position=(0, 0))
-
-        self.image = pygame.transform.scale(self.image, (shared.window_width,
-                                                                   shared.window_height))
+        self.set_component("Mesh", image=background_image_path, position=(0, 0),
+                           width=shared.window_width,height=shared.window_height)
 
     def update(self, *args):
         pass
