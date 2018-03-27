@@ -33,22 +33,25 @@ class Fruit(GameObject):
     def update(self,
                horizontal: int = 0,
                vertical: int = 0,
-               collided: bool = False,
-               physics_engine: bool = False,
-               *args):
-        if self.is_selected or physics_engine:
-            if not collided:
-                self.last_movement = {'horizontal': -horizontal, 'vertical': -vertical}
-            else:
-                horizontal = self.last_movement['horizontal']
-                vertical = self.last_movement['vertical']
+               *args) -> None:
+        if self.is_selected:
+            self.vx += horizontal
+            self.vy += vertical
 
-            self.position = ((self.position[0] + horizontal) % shared.window_width,
-                             (self.position[1] + vertical) % shared.window_height)
+    def move(self,
+             collidded: bool) -> None:
+        if collidded:
+            self.vx = 0
+            self.vy = 0
+            self.position = self.last_position
+        else:
+            self.last_position = self.position
+            self.position = ((self.position[0] + self.vx) % shared.window_width,
+                             (self.position[1] + self.vy))
 
-            self.rect = self.image.get_rect()
-            self.rect.topleft = self.position
-            self.mask = pygame.mask.from_surface(self.image)
+        self.rect = self.image.get_rect()
+        self.rect.topleft = self.position
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update_selected_status(self):
         if self.is_selected:

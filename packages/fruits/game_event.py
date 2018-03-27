@@ -12,7 +12,6 @@ class EventHandler:
         self.__subscriptions: Dict[str, List[Controller]] = {}
         self.__hold_subscriptions: Dict[str, List[Controller]] = {}
         self.__hold_events = set()
-        self.collision_verifier = None
 
     def subscribe_entity(self, entity: GameEntity):
         if entity.controller is not None:
@@ -32,7 +31,7 @@ class EventHandler:
 
             if subscriptions is not None:
                 self.publish_event(event, subscriptions)
-                if event.endswith('START'):
+                if event.endswith('START') and event != 'SPACE_START':
                     self.__hold_events.add(event)
             if event.endswith('END'):
                 self.__hold_events.discard(event.replace('END', 'START'))
@@ -50,5 +49,4 @@ class EventHandler:
     # @staticmethod
     def publish_event(self, event, subscriptions: List[Controller]) -> None:
         for subscription in subscriptions:
-            if not self.collision_verifier():
-                subscription.receive(event)
+            subscription.receive(event)

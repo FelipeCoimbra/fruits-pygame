@@ -38,7 +38,6 @@ class Scene(ABC):
     def update(self, user_commands, engine=None) -> None:
         # Updates Scene state
         if self.status() == Scene.ALIVE:
-            self._event_handler.collision_verifier = self._world.catch_fruits_terrain_collisions
             self._user_update(user_commands)
             if engine is not None:
                 self._apply_physics(engine)

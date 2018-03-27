@@ -7,7 +7,7 @@ class FruitController(Controller):
     def __init__(self, fruit_entity):
         super(FruitController, self).__init__(fruit_entity)
         self.events = [Command.LEFT_START, Command.RIGHT_START,
-                       Command.UP_START, Command.DOWN_START]
+                       Command.SPACE_START]
 
     @property
     def listening_events(self):
@@ -18,7 +18,5 @@ class FruitController(Controller):
             self.entity.update(horizontal=-5)
         if command == Command.RIGHT_START:
             self.entity.update(horizontal=5)
-        if command == Command.UP_START:
-            self.entity.update(vertical=-5)
-        if command == Command.DOWN_START:
-            self.entity.update(vertical=5)
+        if command == Command.SPACE_START:
+            self.entity.update(vertical=-20)

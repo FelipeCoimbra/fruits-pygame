@@ -52,13 +52,13 @@ class FruitsWorld(World):
 
         # TODO: Create TerrainManager
 
-        self.__terrain = fruits.terrain.Terrain('terrain.png', (0, 0))
-        fruit1 = fruits.fruit.Fruit('tomato-sad.png', position=(1200, 100))
-        fruit2 = fruits.fruit.Fruit('tomato-sad.png', position=(1200, 200))
-        fruit3 = fruits.fruit.Fruit('tomato-sad.png', position=(1200, 300))
-        fruit4 = fruits.fruit.Fruit('tomato-sad.png', position=(1200, 400))
-        fruit5 = fruits.fruit.Fruit('tomato-sad.png', position=(1200, 500))
-        self.register(self.__terrain)
+        self._terrain = fruits.terrain.Terrain('terrain.png', (0, 0))
+        fruit1 = fruits.fruit.Fruit('tomato-sad.png', position=(200, 50))
+        fruit2 = fruits.fruit.Fruit('tomato-sad.png', position=(400, 50))
+        fruit3 = fruits.fruit.Fruit('tomato-sad.png', position=(600, 50))
+        fruit4 = fruits.fruit.Fruit('tomato-sad.png', position=(800, 50))
+        fruit5 = fruits.fruit.Fruit('tomato-sad.png', position=(1000, 50))
+        self.register(self._terrain)
         self.register(fruit1)
         self.register(fruit2)
         self.register(fruit3)
@@ -66,13 +66,4 @@ class FruitsWorld(World):
         self.register(fruit5)
 
         self.update_current_fruit()
-
-    def catch_fruits_terrain_collisions(self) -> None:
-        if pygame.sprite.spritecollide(self.__terrain, self.fruits, False):
-            collisions = pygame.sprite.spritecollide(self.__terrain, self.fruits, False, pygame.sprite.collide_mask)
-            if collisions != []:
-                for sprite_collided in collisions:
-                    sprite_collided.update(collided=True)
-                return True
-        return False
 

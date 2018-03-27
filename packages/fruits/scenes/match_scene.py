@@ -26,7 +26,7 @@ class MatchScene(Scene):
 
     def _apply_physics(self, engine) -> None:
         if self.status() == Scene.ALIVE:
-            pass
+            engine.move_fruits()
 
     def _update_final_state(self) -> None:
         if self.status() == Scene.DONE:
