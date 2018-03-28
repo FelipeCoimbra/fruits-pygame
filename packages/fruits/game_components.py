@@ -1,11 +1,16 @@
-import abc,sys
-import pygame
 from fruits.utils import load_image
+from abc import ABC
+import pygame
 
 from typing import Tuple
 
 
-class Mesh(pygame.sprite.Sprite, abc.ABC):
+class GameComponent(ABC):
+    def __init__(self):
+        pass
+
+
+class Mesh(GameComponent):
     def __init__(self,
                  image: str,
                  width: float,
@@ -16,8 +21,7 @@ class Mesh(pygame.sprite.Sprite, abc.ABC):
                  vy: float = 0,
                  ax: float = 0,
                  ay: float = 0) -> None:
-        pygame.sprite.Sprite.__init__(self)
-
+        super(GameComponent, self).__init__()
         self.orientation = orientation
         self.position = position
         self.vx = vx
@@ -29,10 +33,6 @@ class Mesh(pygame.sprite.Sprite, abc.ABC):
         self.__current_image_path = image
         self.__loaded_images = {image: self.__current_image}
 
-        self.rect = self.image.get_rect()
-        self.rect.topleft = position
-        self.mask = pygame.mask.from_surface(self.image)
-
     @property
     def image(self) -> pygame.Surface:
         return self.__current_image
@@ -40,6 +40,16 @@ class Mesh(pygame.sprite.Sprite, abc.ABC):
     @property
     def image_path(self) -> str:
         return self.__current_image_path
+
+    @property
+    def size(self) -> Tuple[int, int]:
+        return self.image.get_size()
+
+    @property
+    def rect(self):
+        rect = self.image.get_rect()
+        rect.topleft = self.position
+        return rect
 
     @image.setter
     def image(self, new_image: pygame.Surface) -> None:
@@ -57,37 +67,33 @@ class Mesh(pygame.sprite.Sprite, abc.ABC):
             self.__current_image = image_surface
         self.__current_image_path = image
 
-
-    @property
-    def size(self) -> Tuple[int, int]:
-        return self.image.get_size()
-
     def draw_on(self, screen) -> None:
         screen.blit(self.image, self.position)
 
 
-class Collider(pygame.sprite.Sprite, abc.ABC):
+class Collider(GameComponent, pygame.sprite.Sprite):
+    def __init__(self,
+                 mask,
+                 rect) -> None:
+        super(GameComponent, self).__init__()
+        pygame.sprite.Sprite.__init__(self)
+        self.__mask = mask
+        self.__rect = rect
 
-    def __init__(self) -> None:
-        # pygame.sprite.Sprite.__init__(self)
-        pass
+    @property
+    def mask(self):
+        return self.__mask
 
+    @property
+    def rect(self):
+        return self.__rect
 
-class RigidBody(abc.ABC):
+    @mask.setter
+    def mask(self,
+             mask: pygame.mask):
+        self.__mask = mask
 
-    def __init__(self, parameters) -> None:
-        for key, value in parameters.items():
-            setattr(self, key, value)
-        print(self.mass)
-
-
-class GameComponents(RigidBody, Mesh, Collider):
-
-    def set_component(self,
-                      component: str,
-                      **kwargs) -> None:
-        getattr(sys.modules[__name__], component).__init__(self, **kwargs)
-        self._update_world()
-
-    def _update_world(self):
-        pass
+    @rect.setter
+    def rect(self,
+             rect):
+        self.__rect = rect

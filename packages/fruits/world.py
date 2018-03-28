@@ -14,14 +14,14 @@ class World(ABC):
 
     def __init__(self) -> None:
         self._drawables = []
-        self.fruits = pygame.sprite.Group()
+        self.fruits = []
         self.current_fruit = -1
 
     def register(self, game_object: GameObject) -> None:
         if game_object is not None:
             self._drawables.append(game_object)
             if type(game_object) == fruits.fruit.Fruit:
-                self.fruits.add(game_object)
+                self.fruits.append(game_object)
 
     @property
     def drawables(self) -> Iterable[GameObject]:
@@ -30,7 +30,7 @@ class World(ABC):
     def update_current_fruit(self):
         if self.current_fruit == -1:
             self.current_fruit = randint(0, len(self.fruits) - 1)
-            self.fruits.sprites()[self.current_fruit].update_selected_status()
+            self.fruits[self.current_fruit].update_selected_status()
             return
 
         if len(self.fruits) < 2:
@@ -40,8 +40,8 @@ class World(ABC):
         while i != self.current_fruit:
             i = randint(0, len(self.fruits) - 1)
 
-        self.fruits.sprites()[i].update_selected_status()
-        self.fruits.sprites()[(i + 1) % len(self.fruits)].update_selected_status()
+        self.fruits[i].update_selected_status()
+        self.fruits[(i + 1) % len(self.fruits)].update_selected_status()
         self.current_fruit = (i + 1) % len(self.fruits)
 
 

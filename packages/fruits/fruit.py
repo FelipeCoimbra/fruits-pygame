@@ -1,10 +1,11 @@
 from typing import Tuple
-
+from fruits.game_components import Collider
 import pygame
 
 from fruits.controllers.fruit_controller import FruitController
 from fruits.game_object import GameObject
 import fruits.shared_preferences as shared
+from fruits.game_components import Mesh
 
 
 class Fruit(GameObject):
@@ -22,10 +23,10 @@ class Fruit(GameObject):
 
         self.attach_controller(FruitController(self))
 
-        self.set_component("Mesh", image=image, position=position, orientation=orientation, vx=vx, vy=vy, ax=ax, ay=ay,
-                           width=shared.character_width,height=shared.character_height)
+        self.mesh = Mesh(image=image, position=position, orientation=orientation, vx=vx, vy=vy, ax=ax, ay=ay,
+                         width=shared.character_width, height=shared.character_height)
 
-        self.last_position = self.position
+        self.collider = Collider(pygame.mask.from_surface(self.mesh.image), self.mesh.rect)
 
     def init(self) -> None:
         pass
@@ -35,28 +36,27 @@ class Fruit(GameObject):
                vertical: int = 0,
                *args) -> None:
         if self.is_selected:
-            self.vx += horizontal
-            self.vy += vertical
+            self.mesh.vx += horizontal
+            self.mesh.vy += vertical
 
     def move(self,
-             collidded: bool) -> None:
-        if collidded:
-            self.vx = 0
-            self.vy = 0
-            self.position = self.last_position
+             collided: bool) -> None:
+        if collided:
+            self.mesh.vx = 0
+            self.mesh.vy = 0
+            self.mesh.position = self.mesh.last_position
         else:
-            self.last_position = self.position
-            self.position = ((self.position[0] + self.vx) % shared.window_width,
-                             (self.position[1] + self.vy))
+            self.mesh.last_position = self.mesh.position
+            self.mesh.position = ((self.mesh.position[0] + self.mesh.vx) % shared.window_width,
+                             (self.mesh.position[1] + self.mesh.vy))
 
-        self.rect = self.image.get_rect()
-        self.rect.topleft = self.position
-        self.mask = pygame.mask.from_surface(self.image)
+        self.collider.rect = self.mesh.rect
+        self.collider.mask = pygame.mask.from_surface(self.mesh.image)
 
     def update_selected_status(self):
         if self.is_selected:
             self.is_selected = False
-            self.update_image(self.image_path.replace('happy', 'sad'))
+            self.mesh.update_image(self.mesh.image_path.replace('happy', 'sad'))
         else:
             self.is_selected = True
-            self.update_image(self.image_path.replace('sad', 'happy'))
+            self.mesh.update_image(self.mesh.image_path.replace('sad', 'happy'))

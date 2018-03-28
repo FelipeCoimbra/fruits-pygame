@@ -12,9 +12,9 @@ class PhysicsEngine(object):
 
     def move_fruits(self):
         for fruit in self._world.fruits:
-            fruit.vy += self.gravity
-            fruit.move(collidded=False)
-            if pygame.sprite.collide_mask(self._world._terrain, fruit) is not None:
-                fruit.move(collidded=True)
+            fruit.mesh.vy += self.gravity
+            fruit.move(collided=False)
+            if pygame.sprite.collide_mask(self._world._terrain.collider, fruit.collider) is not None:
+                fruit.move(collided=True)
             else:
-                fruit.vx *= self.friction_x
+                fruit.mesh.vx *= self.friction_x

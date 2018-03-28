@@ -14,7 +14,8 @@ class SceneManager:
 
     def __change_scene(self, scene) -> bool:
         # Change to the desired scene if valid. Else search for last valid scene
-        self.__physics_engine = PhysicsEngine(scene._world)
+        if scene is not None:
+            self.__physics_engine = PhysicsEngine(scene._world)
         if self.__current_scene is not None and self.__current_scene.status() == Scene.PAUSED:
             self.__scene_stack.append(self.__current_scene)
 
