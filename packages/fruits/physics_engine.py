@@ -6,7 +6,7 @@ class PhysicsEngine(object):
     def __init__(self,
                  world: FruitsWorld):
         self.gravity = 2
-        self.friction_x = 0.6
+        self.friction_x = 0.5
         self.friction_y = 0.6
         self._world = world
 

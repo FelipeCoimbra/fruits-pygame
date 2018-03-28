@@ -9,6 +9,9 @@ class GameComponent(ABC):
     def __init__(self):
         pass
 
+    def update_world(self):
+        pass
+
 
 class Mesh(GameComponent):
     def __init__(self,

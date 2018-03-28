@@ -15,8 +15,8 @@ class FruitController(Controller):
 
     def receive(self, command):
         if command == Command.LEFT_START:
-            self.entity.update(horizontal=-5)
+            self.entity.update(horizontal=-4)
         if command == Command.RIGHT_START:
-            self.entity.update(horizontal=5)
+            self.entity.update(horizontal=4)
         if command == Command.SPACE_START:
             self.entity.update(vertical=-20)
