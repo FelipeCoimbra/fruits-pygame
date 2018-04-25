@@ -16,7 +16,7 @@ class World(ABC):
         self._drawables = []
         self.fruits = []
         self.current_fruit = -1
-        self.player = 0
+        self.current_player = -1
 
     def register(self, game_object: GameObject) -> None:
         if game_object is not None:
@@ -29,17 +29,18 @@ class World(ABC):
         return self._drawables
 
     def update_current_player(self):
-        self.player = (self.player + 1) % 2
+        self.current_player = (self.current_player + 1) % 2
+        self.update_current_fruit()
 
     def update_current_fruit(self):
         if self.current_fruit == -1:
             self.current_fruit = randint(0, len(self.fruits) - 1)
-            self.player = self.fruits[self.current_fruit].player
+            self.current_player = self.fruits[self.current_fruit].player
             self.fruits[self.current_fruit].update_selected_status()
         elif len(self.fruits) >= 2:
             i = self.current_fruit
             k = 1
-            while self.fruits[(i + k) % len(self.fruits)].player != self.player:
+            while self.fruits[(i + k) % len(self.fruits)].player != self.current_player:
                 k += 1
 
             self.fruits[i].update_selected_status()
@@ -73,5 +74,6 @@ class FruitsWorld(World):
         for fruit in fruits_to_register:
             self.register(fruit)
 
+        self.update_current_player()
         self.update_current_fruit()
 

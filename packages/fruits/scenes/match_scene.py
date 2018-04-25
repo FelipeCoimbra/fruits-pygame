@@ -2,7 +2,8 @@ from fruits.background import Background
 from fruits.match import Match
 from fruits.scenes.scene import Scene
 from fruits.world import FruitsWorld
-
+import pygame
+import fruits.shared_preferences as shared
 
 class MatchScene(Scene):
     def __init__(self, event_handler) -> None:
@@ -51,3 +52,20 @@ class MatchScene(Scene):
             for drawable in drawables:
                 if drawable.mesh.image is not None:
                     drawable.mesh.draw_on(screen)
+
+            if self._world.current_player != -1:
+                labels = [
+                    {
+                        'label': pygame.font.SysFont("bitstreamverasans", 20, bold=(self._world.current_player == 0)
+                                                     ).render("PLAYER 1", 1, (0, 0, 0)),
+                        'pos': (10, 10)
+                    },
+                    {
+                        'label': pygame.font.SysFont("bitstreamverasans", 20, bold=(self._world.current_player == 1)
+                                                     ).render("PLAYER 2", 1, (0, 0, 0)),
+                        'pos': (shared.window_width - 100, 10)
+                    }
+                ]
+
+                for label in labels:
+                    screen.blit(label['label'], label['pos'])
