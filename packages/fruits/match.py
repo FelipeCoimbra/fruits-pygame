@@ -1,7 +1,5 @@
 from fruits.game_entity import GameEntity
 from fruits.controllers.match_controller import MatchController
-from random import randint
-from fruits.fruit import Fruit
 
 
 class Match(GameEntity):
@@ -23,3 +21,6 @@ class Match(GameEntity):
 
     def update_current_fruit(self):
         self.__scene._world.update_current_fruit()
+
+    def update_current_player(self):
+        self.__scene._world.update_current_player()

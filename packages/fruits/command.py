@@ -14,6 +14,7 @@ class Command:
     SPACE_END = 'SPACE_END'
     ESCAPE = 'ESCAPE'
     TAB = 'TAB'
+    Q = 'Q'
     QUIT = 'QUIT'
 
 
@@ -30,5 +31,6 @@ commands = {
     (KEYUP, K_SPACE): Command.SPACE_END,
     (KEYDOWN, K_ESCAPE): Command.ESCAPE,
     (KEYDOWN, K_TAB): Command.TAB,
+    (KEYDOWN, K_q): Command.Q,
     QUIT: Command.QUIT
     }
