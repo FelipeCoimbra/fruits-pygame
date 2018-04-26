@@ -2,6 +2,8 @@ from fruits.scenes.scene import Scene
 from fruits.scenes.match_scene import MatchScene
 from fruits.game_event import EventHandler
 from fruits.physics_engine import PhysicsEngine
+from fruits.scenes.menu_scene import MenuScene
+
 
 class SceneManager:
 
@@ -11,6 +13,7 @@ class SceneManager:
         self.__event_handler = EventHandler()
         self.__physics_engine = None
         self.__change_scene(MatchScene(self.__event_handler))
+        self.__menu_scene = MenuScene(EventHandler())
 
     def __change_scene(self, scene) -> bool:
         # Change to the desired scene if valid. Else search for last valid scene
@@ -40,6 +43,9 @@ class SceneManager:
         if self.__current_scene.status() == Scene.DONE:
             new_scene = self.__current_scene.next_scene()
             return self.__change_scene(new_scene)
+
+        if self.__current_scene.status() == Scene.PAUSED:
+            return self.__change_scene(self.__menu_scene)
 
         return True
 

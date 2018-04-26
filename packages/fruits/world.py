@@ -1,5 +1,4 @@
 from abc import ABC
-import abc
 from typing import Iterable
 from random import randint
 from fruits.game_object import GameObject
@@ -7,6 +6,7 @@ import fruits.background
 import fruits.terrain
 import fruits.fruit
 from fruits.fruit import Fruit
+from fruits.menu import Option
 
 
 class World(ABC):
@@ -56,7 +56,8 @@ class FruitsWorld(World):
 
         self._terrain = fruits.terrain.Terrain('terrain.png', (0, 0))
 
-        fruits_to_register = [
+        to_register = [
+            self._terrain,
             Fruit('tomato-sad.png', player=0, position=(200, 50)),
             Fruit('tomato-sad.png', player=0, position=(400, 50)),
             Fruit('tomato-sad.png', player=0, position=(600, 50)),
@@ -66,12 +67,25 @@ class FruitsWorld(World):
             Fruit('watermellon-sad.png', player=1, position=(420, 50)),
             Fruit('watermellon-sad.png', player=1, position=(620, 50)),
             Fruit('watermellon-sad.png', player=1, position=(820, 50)),
-            Fruit('watermellon-sad.png', player=1, position=(1020, 50))
+            Fruit('watermellon-sad.png', player=1, position=(1020, 50)),
         ]
 
-        self.register(self._terrain)
-        for fruit in fruits_to_register:
+        for fruit in to_register:
             self.register(fruit)
 
         self.update_current_player()
 
+
+class Menu(World):
+
+    def __init__(self) -> None:
+        super(Menu, self).__init__()
+
+        # self._menu = fruits.menu.Menu('PLAY_ACTIVE.png')
+
+        to_register = [
+            # self._menu,
+        ]
+
+        for fruit in to_register:
+            self.register(fruit)

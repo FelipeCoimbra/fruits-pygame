@@ -21,7 +21,6 @@ class FruitsGame(object):
 
             commands = (self.__input_handler
                             .events_to_commands(pygame.event.get()))
-
             manager_alive = self.__scene_manager.manage(commands)
             if not manager_alive:
                 return

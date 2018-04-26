@@ -14,5 +14,3 @@ class GameObject(GameEntity, abc.ABC):
     @abc.abstractmethod
     def update(self, *args) -> None:
         pass
-
-

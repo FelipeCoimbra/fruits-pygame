@@ -31,6 +31,11 @@ class Scene(ABC):
             self._set_status(Scene.ALIVE)
 
     @abstractmethod
+    def pause(self) -> None:
+        # Pauses scene
+        self._set_status(Scene.PAUSED)
+
+    @abstractmethod
     def stop(self) -> None:
         # Stops scene
         self._set_status(Scene.DONE)

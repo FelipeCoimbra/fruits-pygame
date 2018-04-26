@@ -6,7 +6,7 @@ class MatchController(Controller):
 
     def __init__(self, match_entity):
         super(MatchController, self).__init__(match_entity)
-        self.events = [Command.QUIT, Command.TAB, Command.Q]
+        self.events = [Command.QUIT, Command.TAB, Command.Q, Command.W]
 
     @property
     def listening_events(self):
@@ -19,3 +19,5 @@ class MatchController(Controller):
             self.entity.update_current_fruit()
         if command == Command.Q:
             self.entity.update_current_player()
+        if command == Command.W:
+            self.entity._Match__scene.pause()
