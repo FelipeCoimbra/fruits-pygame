@@ -10,6 +10,7 @@ from fruits.explosion_effect import ExplosionEffect
 from fruits.scenes.menu_scene import MenuScene
 import pygame
 import fruits.shared_preferences as shared
+from functools import reduce
 
 
 class MatchScene(Scene):
@@ -94,8 +95,17 @@ class MatchScene(Scene):
 
                 for label in labels:
                     screen.blit(label['label'], label['pos'])
-                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(10, 35, 95, 20))
-                pygame.draw.rect(screen, (0, 128, 0), pygame.Rect(shared.window_width - 105, 35, 95, 20))
+
+                player_0_fruits = list(filter(lambda f: not f.player, self._world.fruits))
+                total_player_0_stamina = reduce(lambda acc, x: acc + x.stamina, player_0_fruits, 0.0)
+                player_0_width = 95 * total_player_0_stamina / 500
+
+                player_1_fruits = list(filter(lambda f: f.player, self._world.fruits))
+                total_player_1_stamina = reduce(lambda acc, x: acc + x.stamina, player_1_fruits, 0.0)
+                player_1_width = 95 * total_player_1_stamina / 500
+
+                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(10, 35, player_0_width, 20))
+                pygame.draw.rect(screen, (0, 128, 0), pygame.Rect(shared.window_width - 105, 35, player_1_width, 20))
 
     def equip_bomb(self) -> None:
         current_fruit: Fruit = self._world.fruits[self._world.current_fruit]
