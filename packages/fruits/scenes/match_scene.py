@@ -2,6 +2,7 @@ from fruits.background import Background
 from fruits.match import Match
 from fruits.scenes.scene import Scene
 from fruits.world import FruitsWorld
+from fruits.scenes.menu_scene import MenuScene
 import pygame
 import fruits.shared_preferences as shared
 
@@ -34,8 +35,8 @@ class MatchScene(Scene):
             engine.move_fruits()
 
     def _update_final_state(self) -> None:
-        if self.status() == Scene.DONE:
-            # Scene has received signal to terminate
+        if self.status() == Scene.DONE or self.status() == Scene.PAUSED:
+            # Scene has received signal to terminate/pause
             # Just enqueue next scene and return
             self._enqueue_next_scene()
             return
@@ -44,7 +45,10 @@ class MatchScene(Scene):
 
     def _enqueue_next_scene(self):
         # TODO: Differentiate next scene of QUIT from next scene of end of match
-        self._enqueued_scene = None
+        if self.status() == Scene.PAUSED:
+            self._enqueued_scene = MenuScene(self._event_handler)
+        else:
+            self._enqueued_scene = None
 
     def draw_background(self, screen) -> None:
         if self._background is not None and self._background.mesh.image is not None:

@@ -34,6 +34,7 @@ class Scene(ABC):
     def pause(self) -> None:
         # Pauses scene
         self._set_status(Scene.PAUSED)
+        self.__user_commands_enable = False
 
     @abstractmethod
     def stop(self) -> None:

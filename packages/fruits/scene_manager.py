@@ -13,7 +13,7 @@ class SceneManager:
         self.__event_handler = EventHandler()
         self.__physics_engine = None
         self.__change_scene(MatchScene(self.__event_handler))
-        self.__menu_scene = MenuScene(EventHandler())
+        self.__menu_scene = MenuScene(self.__event_handler)
 
     def __change_scene(self, scene) -> bool:
         # Change to the desired scene if valid. Else search for last valid scene
@@ -40,12 +40,9 @@ class SceneManager:
 
         self.__current_scene.update(user_commands, self.__physics_engine)
 
-        if self.__current_scene.status() == Scene.DONE:
+        if self.__current_scene.status() == Scene.DONE or self.__current_scene.status() == Scene.PAUSED:
             new_scene = self.__current_scene.next_scene()
             return self.__change_scene(new_scene)
-
-        if self.__current_scene.status() == Scene.PAUSED:
-            return self.__change_scene(self.__menu_scene)
 
         return True
 
