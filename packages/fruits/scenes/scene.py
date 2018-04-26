@@ -11,18 +11,18 @@ class Scene(ABC):
     DONE = 2
 
     def __init__(self, event_handler: EventHandler, world: World, background=None) -> None:
-        self.__user_commands_enable = True
         self.__status = Scene.ALIVE
+        self.__user_commands_enabled = True
         self._enqueued_scene = None
         self._event_handler = event_handler
         self._background = background
         self._world = world
 
     def user_commands_enabled(self) -> bool:
-        return self.__user_commands_enable
+        return self.__user_commands_enabled and self.__status == Scene.ALIVE
 
     def enable_user_commands(self, enable) -> None:
-        self.__user_commands_enable = enable
+        self.__user_commands_enabled = enable
 
     @abstractmethod
     def play(self) -> None:
@@ -34,7 +34,6 @@ class Scene(ABC):
     def pause(self) -> None:
         # Pauses scene
         self._set_status(Scene.PAUSED)
-        self.__user_commands_enable = False
 
     @abstractmethod
     def stop(self) -> None:
