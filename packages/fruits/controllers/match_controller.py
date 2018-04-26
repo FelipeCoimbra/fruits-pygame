@@ -8,7 +8,8 @@ class MatchController(Controller):
     listening_events = [
         Command.QUIT, Command.TAB, Command.X_KEY,
         Command.MOUSE_LEFT_DOWN, ExplosionEvent,
-        Command.ESCAPE, ExplosionEffectEvent
+        Command.ESCAPE, ExplosionEffectEvent,
+        Command.Q, Command.W
     ]
 
     def __init__(self, match_entity):
