@@ -14,13 +14,13 @@ class World(ABC):
 
     def __init__(self) -> None:
         self._drawables = []
-        self.fruits = []
+        self.fruits: List[fruits.fruit.Fruit] = []
         self.current_fruit = -1
 
     def register(self, game_object: GameObject) -> None:
         if game_object is not None:
             self._drawables.append(game_object)
-            if type(game_object) == fruits.fruit.Fruit:
+            if isinstance(game_object, fruits.fruit.Fruit):
                 self.fruits.append(game_object)
 
     @property

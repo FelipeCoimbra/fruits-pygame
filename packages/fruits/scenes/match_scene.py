@@ -2,6 +2,11 @@ from fruits.background import Background
 from fruits.match import Match
 from fruits.scenes.scene import Scene
 from fruits.world import FruitsWorld
+from fruits.bomb import Bomb
+from fruits.fruit import Fruit
+from fruits.events.explosion import ExplosionEvent
+from fruits.command import Command
+from fruits.explosion_effect import ExplosionEffect
 
 
 class MatchScene(Scene):
@@ -10,6 +15,7 @@ class MatchScene(Scene):
                                          FruitsWorld(),
                                          Background('blue-background.png'))
         self.__match = Match(self)
+        self.waiting_launching = False
         self._event_handler.subscribe_entity(self.__match)
         for entity in self._world.drawables:
             self._event_handler.subscribe_entity(entity)
@@ -21,8 +27,19 @@ class MatchScene(Scene):
         Scene.stop(self)
 
     def _user_update(self, user_commands) -> None:
-        if self.status() == Scene.ALIVE and self.user_commands_enabled():
+        if self.status() != Scene.ALIVE:
+            return
+
+        if self.user_commands_enabled():
             self._event_handler.process_events(user_commands)
+        elif self.waiting_launching:
+            commands = [c for c in user_commands
+                        if (isinstance(c, ExplosionEvent)
+                            or c in (Command.MOUSE_LEFT_DOWN, Command.ESCAPE))]
+            self._event_handler.process_events(commands)
+        else:
+            commands = [c for c in user_commands if isinstance(c, ExplosionEvent)]
+            self._event_handler.process_events(commands)
 
     def _apply_physics(self, engine) -> None:
         if self.status() == Scene.ALIVE:
@@ -51,3 +68,41 @@ class MatchScene(Scene):
             for drawable in drawables:
                 if drawable.mesh.image is not None:
                     drawable.mesh.draw_on(screen)
+
+    def equip_bomb(self) -> None:
+        current_fruit: Fruit = self._world.fruits[self._world.current_fruit]
+        current_fruit.block_movement()
+        fruit_x, fruit_y = current_fruit.mesh.position
+        print(f'Creating bomb at: {fruit_x}, {fruit_y - 5}')
+        bomb = Bomb((fruit_x, fruit_y - 5))
+        self._world.register(bomb)
+        self._event_handler.subscribe_entity(bomb)
+        self.__bomb = bomb
+        self.__holding_fruit = current_fruit
+
+    def desequip_bomb(self) -> None:
+        try:
+            self._world._drawables.remove(self.__bomb)
+        except ValueError:
+            self._world._drawables.remove(effect)
+        self._event_handler.unsubscribe_entity(self.__bomb)
+        self.__holding_fruit._blocked = False
+
+    def bomb_exploded(self, bomb) -> None:
+        try:
+            self._world._drawables.remove(bomb)
+            effect = ExplosionEffect(self.__bomb.mesh.position)
+            self._world._drawables.append(effect)
+        except ValueError:
+            print('Bomb exploded and not in world!')
+            print(f'Bomb element: {bomb}')
+            print(f'World drawables: {self._world._drawables}')
+
+    def remove_effect(self, explosion_effect: ExplosionEffect) -> None:
+        try:
+            self._world._drawables.remove(explosion_effect)
+        except ValueError:
+            print('Explosion effect faded and not in world!')
+            print(f'ExplosionEffect element:  {explosion_effect}')
+            print(f'World drawables: {self._world._drawables}')
+

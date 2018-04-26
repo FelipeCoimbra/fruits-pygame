@@ -20,6 +20,7 @@ class Fruit(GameObject):
         super(GameObject, self).__init__()
 
         self.is_selected = False
+        self._blocked = False
 
         self.attach_controller(FruitController(self))
 
@@ -39,8 +40,10 @@ class Fruit(GameObject):
             self.mesh.vx += horizontal
             self.mesh.vy += vertical
 
-    def move(self,
-             collided: bool) -> None:
+    def move(self, collided: bool) -> None:
+        if self._blocked:
+            return
+
         if collided:
             self.mesh.vx = 0
             self.mesh.vy = 0
@@ -60,3 +63,6 @@ class Fruit(GameObject):
         else:
             self.is_selected = True
             self.mesh.update_image(self.mesh.image_path.replace('sad', 'happy'))
+
+    def block_movement(self) -> None:
+        self._blocked = True

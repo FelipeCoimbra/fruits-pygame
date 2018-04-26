@@ -1,5 +1,6 @@
 from fruits.world import FruitsWorld
 import pygame
+from fruits.bomb import Bomb
 
 
 class PhysicsEngine(object):
@@ -18,3 +19,16 @@ class PhysicsEngine(object):
                 fruit.move(collided=True)
             else:
                 fruit.mesh.vx *= self.friction_x
+
+        for drawable in self._world.drawables:
+            if hasattr(drawable, 'always_update'):
+                drawable.update_frame()
+
+            if isinstance(drawable, Bomb):
+                drawable.mesh.vy += self.gravity
+                drawable.move(collided=False)
+                if pygame.sprite.collide_mask(self._world._terrain.collider, 
+                                              drawable.collider) is not None:
+                    drawable.move(collided=True)
+                else:
+                    drawable.mesh.vx *= self.friction_x
