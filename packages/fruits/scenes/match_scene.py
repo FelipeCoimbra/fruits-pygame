@@ -3,6 +3,8 @@ from fruits.match import Match
 from fruits.scenes.scene import Scene
 from fruits.world import FruitsWorld
 from fruits.scenes.menu_scene import MenuScene
+import pygame
+import fruits.shared_preferences as shared
 
 
 class MatchScene(Scene):
@@ -59,21 +61,21 @@ class MatchScene(Scene):
                 if drawable.mesh.image is not None:
                     drawable.mesh.draw_on(screen)
 
-            # if self._world.current_player != -1:
-            #     labels = [
-            #         {
-            #             'label': pygame.font.SysFont("bitstreamverasans", 20, bold=(self._world.current_player == 0)
-            #                                          ).render("PLAYER 1", 1, (255, 0, 0)),
-            #             'pos': (10, 10)
-            #         },
-            #         {
-            #             'label': pygame.font.SysFont("bitstreamverasans", 20, bold=(self._world.current_player == 1)
-            #                                          ).render("PLAYER 2", 1, (0, 128, 0)),
-            #             'pos': (shared.window_width - 105, 10)
-            #         }
-            #     ]
-            #
-            #     for label in labels:
-            #         screen.blit(label['label'], label['pos'])
-            #     pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(10, 35, 95, 20))
-            #     pygame.draw.rect(screen, (0, 128, 0), pygame.Rect(shared.window_width - 105, 35, 95, 20))
+            if self._world.current_player != -1:
+                labels = [
+                    {
+                        'label': pygame.font.SysFont("bitstreamverasans", 20, bold=(self._world.current_player == 0)
+                                                     ).render("PLAYER 1", 1, (255, 0, 0)),
+                        'pos': (10, 10)
+                    },
+                    {
+                        'label': pygame.font.SysFont("bitstreamverasans", 20, bold=(self._world.current_player == 1)
+                                                     ).render("PLAYER 2", 1, (0, 128, 0)),
+                        'pos': (shared.window_width - 105, 10)
+                    }
+                ]
+
+                for label in labels:
+                    screen.blit(label['label'], label['pos'])
+                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(10, 35, 95, 20))
+                pygame.draw.rect(screen, (0, 128, 0), pygame.Rect(shared.window_width - 105, 35, 95, 20))

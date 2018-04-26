@@ -5,6 +5,9 @@ from fruits.world import Menu as MenuWorld
 from pygame.mixer import music
 from pygame import mixer
 import wave
+import pygame
+import fruits.shared_preferences as shared
+
 
 class MenuScene(Scene):
     def __init__(self, event_handler) -> None:
@@ -19,7 +22,6 @@ class MenuScene(Scene):
         frequency = file_wav.getframerate()
         mixer.init(frequency=frequency)
         music.load(file_path)
-
 
     def play(self) -> None:
         music.play()
@@ -63,4 +65,18 @@ class MenuScene(Scene):
             for drawable in drawables:
                 if drawable.mesh.image is not None:
                     drawable.mesh.draw_on(screen)
+            labels = [
+                {
+                    'label': pygame.font.Font("fonts/Minecrafter.Alt.ttf", 50, bold=(self._world.current_player == 0)
+                                                 ).render("PLAY", 1, (255, 255, 0)),
+                    'pos': (int(shared.window_width/2) - 50, int(shared.window_height/3) + 60)
+                },
+                {
+                    'label': pygame.font.Font("fonts/Minecrafter.Alt.ttf", 50, bold=(self._world.current_player == 1)
+                                                 ).render("QUIT", 1, (0, 0, 0)),
+                    'pos': (int(shared.window_width/2) - 50, int(shared.window_height/3) + 150)
+                }
+            ]
 
+            for label in labels:
+                screen.blit(label['label'], label['pos'])

@@ -21,17 +21,15 @@ class Menu(GameEntity):
         self.__scene.stop()
 
 
-
 class Option(GameObject):
     def __init__(self,
-                 image: str,
+                 label,
                  position: Tuple[int, int] = (0, 0)) -> None:
         super(GameObject, self).__init__()
 
         self.attach_controller(FruitController(self))
-        self.mesh = Mesh(image=image, position=position,
-                         width=shared.character_width, height=shared.character_height)
-
+        self.label = label
+        self.position = position
 
     def init(self) -> None:
         pass

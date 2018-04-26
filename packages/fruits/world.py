@@ -7,6 +7,9 @@ import fruits.terrain
 import fruits.fruit
 from fruits.fruit import Fruit
 import pygame
+from fruits.menu import Option
+import fruits.shared_preferences as shared
+
 
 class World(ABC):
 
@@ -79,12 +82,17 @@ class Menu(World):
 
     def __init__(self) -> None:
         super(Menu, self).__init__()
-
-        # self._menu = fruits.menu.Menu('PLAY_ACTIVE.png')
-
-        to_register = [
-            # self._menu,
-        ]
-
-        for fruit in to_register:
-            self.register(fruit)
+        #
+        #
+        #
+        # to_register = [
+        #     Option(label=pygame.font.Font("fonts/Minecrafter.Alt.ttf", 50, bold=(self._world.current_player == 0)).
+        #            render("PLAY", 1, (255, 255, 0)),
+        #            position=(int(shared.window_width / 2) - 50, int(shared.window_height / 3) + 60)),
+        #     Option(label=pygame.font.Font("fonts/Minecrafter.Alt.ttf", 50, bold=(self._world.current_player == 0)).
+        #            render("QUIT", 1, (0, 0, 0)),
+        #            position=(int(shared.window_width / 2) - 50, int(shared.window_height / 3) + 120))
+        # ]
+        #
+        # for el in to_register:
+        #     self.register(fruit)
