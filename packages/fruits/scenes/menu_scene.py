@@ -2,7 +2,9 @@ from fruits.background import Background
 from fruits.scenes.scene import Scene
 from fruits.menu import Menu
 from fruits.world import Menu as MenuWorld
-
+from pygame.mixer import music
+from pygame import mixer
+import wave
 
 class MenuScene(Scene):
     def __init__(self, event_handler) -> None:
@@ -12,10 +14,19 @@ class MenuScene(Scene):
         self._menu = Menu(self)
         self._event_handler.subscribe_entity(self._menu)
 
+        file_path = "songs/epicsaxguys.wav"
+        file_wav = wave.open(file_path)
+        frequency = file_wav.getframerate()
+        mixer.init(frequency=frequency)
+        music.load(file_path)
+
+
     def play(self) -> None:
+        music.play()
         Scene.play(self)
 
     def stop(self) -> None:
+        music.stop()
         Scene.stop(self)
 
     def pause(self) -> None:

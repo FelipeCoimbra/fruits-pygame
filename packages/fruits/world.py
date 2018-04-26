@@ -6,8 +6,7 @@ import fruits.background
 import fruits.terrain
 import fruits.fruit
 from fruits.fruit import Fruit
-from fruits.menu import Option
-
+import pygame
 
 class World(ABC):
 

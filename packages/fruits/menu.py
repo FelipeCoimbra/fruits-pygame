@@ -9,19 +9,17 @@ from fruits.game_components import Mesh
 
 class Menu(GameEntity):
 
-    # Match status
+    # Menu status
 
     def __init__(self, scene):
         super(Menu, self).__init__()
         self.__scene = scene
         self.attach_controller(MenuController(self))
 
-    def __set_conf(self, conf):
-        self.__conf = conf.team_count
-
     def interrupt(self):
         # Ends match suddenly
         self.__scene.stop()
+
 
 
 class Option(GameObject):
