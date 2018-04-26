@@ -57,15 +57,17 @@ class MatchScene(Scene):
                 labels = [
                     {
                         'label': pygame.font.SysFont("bitstreamverasans", 20, bold=(self._world.current_player == 0)
-                                                     ).render("PLAYER 1", 1, (0, 0, 0)),
+                                                     ).render("PLAYER 1", 1, (255, 0, 0)),
                         'pos': (10, 10)
                     },
                     {
                         'label': pygame.font.SysFont("bitstreamverasans", 20, bold=(self._world.current_player == 1)
-                                                     ).render("PLAYER 2", 1, (0, 0, 0)),
-                        'pos': (shared.window_width - 100, 10)
+                                                     ).render("PLAYER 2", 1, (0, 128, 0)),
+                        'pos': (shared.window_width - 105, 10)
                     }
                 ]
 
                 for label in labels:
                     screen.blit(label['label'], label['pos'])
+                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(10, 35, 95, 20))
+                pygame.draw.rect(screen, (0, 128, 0), pygame.Rect(shared.window_width - 105, 35, 95, 20))

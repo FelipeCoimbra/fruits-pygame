@@ -50,7 +50,7 @@ class Fruit(GameObject):
         else:
             self.mesh.last_position = self.mesh.position
             self.mesh.position = ((self.mesh.position[0] + self.mesh.vx) % shared.window_width,
-                             (self.mesh.position[1] + self.mesh.vy))
+                                  (self.mesh.position[1] + self.mesh.vy))
 
         self.collider.rect = self.mesh.rect
         self.collider.mask = pygame.mask.from_surface(self.mesh.image)

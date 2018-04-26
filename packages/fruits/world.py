@@ -6,8 +6,7 @@ from fruits.game_object import GameObject
 import fruits.background
 import fruits.terrain
 import fruits.fruit
-import fruits.shared_preferences as shared
-import pygame
+from fruits.fruit import Fruit
 
 
 class World(ABC):
@@ -21,7 +20,7 @@ class World(ABC):
     def register(self, game_object: GameObject) -> None:
         if game_object is not None:
             self._drawables.append(game_object)
-            if type(game_object) == fruits.fruit.Fruit:
+            if type(game_object) == Fruit:
                 self.fruits.append(game_object)
 
     @property
@@ -58,16 +57,16 @@ class FruitsWorld(World):
         self._terrain = fruits.terrain.Terrain('terrain.png', (0, 0))
 
         fruits_to_register = [
-            fruits.fruit.Fruit('tomato-sad.png', player=0, position=(200, 50)),
-            fruits.fruit.Fruit('tomato-sad.png', player=0, position=(400, 50)),
-            fruits.fruit.Fruit('tomato-sad.png', player=0, position=(600, 50)),
-            fruits.fruit.Fruit('tomato-sad.png', player=0, position=(800, 50)),
-            fruits.fruit.Fruit('tomato-sad.png', player=0, position=(1000, 50)),
-            fruits.fruit.Fruit('watermellon-sad.png', player=1, position=(220, 50)),
-            fruits.fruit.Fruit('watermellon-sad.png', player=1, position=(420, 50)),
-            fruits.fruit.Fruit('watermellon-sad.png', player=1, position=(620, 50)),
-            fruits.fruit.Fruit('watermellon-sad.png', player=1, position=(820, 50)),
-            fruits.fruit.Fruit('watermellon-sad.png', player=1, position=(1020, 50))
+            Fruit('tomato-sad.png', player=0, position=(200, 50)),
+            Fruit('tomato-sad.png', player=0, position=(400, 50)),
+            Fruit('tomato-sad.png', player=0, position=(600, 50)),
+            Fruit('tomato-sad.png', player=0, position=(800, 50)),
+            Fruit('tomato-sad.png', player=0, position=(1000, 50)),
+            Fruit('watermellon-sad.png', player=1, position=(220, 50)),
+            Fruit('watermellon-sad.png', player=1, position=(420, 50)),
+            Fruit('watermellon-sad.png', player=1, position=(620, 50)),
+            Fruit('watermellon-sad.png', player=1, position=(820, 50)),
+            Fruit('watermellon-sad.png', player=1, position=(1020, 50))
         ]
 
         self.register(self._terrain)
@@ -75,5 +74,4 @@ class FruitsWorld(World):
             self.register(fruit)
 
         self.update_current_player()
-        self.update_current_fruit()
 
