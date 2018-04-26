@@ -1,7 +1,5 @@
 from fruits.game_entity import GameEntity
 from fruits.controllers.match_controller import MatchController
-from random import randint
-from fruits.fruit import Fruit
 
 
 class Match(GameEntity):
@@ -45,3 +43,6 @@ class Match(GameEntity):
 
     def fade_explosion_effect(self, explosion_effect) -> None:
         self.__scene.remove_effect(explosion_effect)
+
+    def update_current_player(self):
+        self.__scene._world.update_current_player()

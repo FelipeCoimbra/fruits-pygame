@@ -19,7 +19,10 @@ class Command:
     SPACE_START = 'SPACE_START'
     SPACE_END = 'SPACE_END'
     ESCAPE = 'ESCAPE'
+    ENTER = 'ENTER'
     TAB = 'TAB'
+    Q = 'Q'
+    W = 'W'
     QUIT = 'QUIT'
     MOUSE_LEFT_UP = 'MOUSE_LEFT_UP'
     MOUSE_LEFT_DOWN = 'MOUSE_LEFT_DOWN'
@@ -52,5 +55,8 @@ commands = {
     (MOUSEBUTTONUP, MouseButtons.RIGHT): Command.MOUSE_RIGHT_UP,
     MOUSEMOTION: Command.MOUSEMOTION,
     K_x: Command.X_KEY,
-    QUIT: Command.QUIT,
-    }
+    (KEYDOWN, K_q): Command.Q,
+    (KEYDOWN, K_w): Command.W,
+    (KEYDOWN, K_g): Command.ENTER,
+    QUIT: Command.QUIT
+}

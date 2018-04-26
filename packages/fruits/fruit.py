@@ -11,6 +11,7 @@ from fruits.game_components import Mesh
 class Fruit(GameObject):
     def __init__(self,
                  image: str,
+                 player: int,
                  position: Tuple[int, int] = (0, 0),
                  orientation: float = None,
                  vx: float = 0,
@@ -21,7 +22,8 @@ class Fruit(GameObject):
 
         self.is_selected = False
         self._blocked = False
-
+        self.player = player
+        self.stamina = 100
         self.attach_controller(FruitController(self))
 
         self.mesh = Mesh(image=image, position=position, orientation=orientation, vx=vx, vy=vy, ax=ax, ay=ay,
@@ -51,7 +53,7 @@ class Fruit(GameObject):
         else:
             self.mesh.last_position = self.mesh.position
             self.mesh.position = ((self.mesh.position[0] + self.mesh.vx) % shared.window_width,
-                             (self.mesh.position[1] + self.mesh.vy))
+                                  (self.mesh.position[1] + self.mesh.vy))
 
         self.collider.rect = self.mesh.rect
         self.collider.mask = pygame.mask.from_surface(self.mesh.image)

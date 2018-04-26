@@ -1,13 +1,14 @@
 from abc import ABC
-import abc
 from typing import Iterable
 from random import randint
 from fruits.game_object import GameObject
 import fruits.background
 import fruits.terrain
 import fruits.fruit
-import fruits.shared_preferences as shared
+from fruits.fruit import Fruit
 import pygame
+from fruits.menu import Option
+import fruits.shared_preferences as shared
 
 
 class World(ABC):
@@ -16,6 +17,7 @@ class World(ABC):
         self._drawables = []
         self.fruits: List[fruits.fruit.Fruit] = []
         self.current_fruit = -1
+        self.current_player = -1
 
     def register(self, game_object: GameObject) -> None:
         if game_object is not None:
@@ -27,22 +29,24 @@ class World(ABC):
     def drawables(self) -> Iterable[GameObject]:
         return self._drawables
 
+    def update_current_player(self):
+        self.current_player = (self.current_player + 1) % 2
+        self.update_current_fruit()
+
     def update_current_fruit(self):
         if self.current_fruit == -1:
             self.current_fruit = randint(0, len(self.fruits) - 1)
+            self.current_player = self.fruits[self.current_fruit].player
             self.fruits[self.current_fruit].update_selected_status()
-            return
+        elif len(self.fruits) >= 2:
+            i = self.current_fruit
+            k = 1
+            while self.fruits[(i + k) % len(self.fruits)].player != self.current_player:
+                k += 1
 
-        if len(self.fruits) < 2:
-            return
-
-        i = -1
-        while i != self.current_fruit:
-            i = randint(0, len(self.fruits) - 1)
-
-        self.fruits[i].update_selected_status()
-        self.fruits[(i + 1) % len(self.fruits)].update_selected_status()
-        self.current_fruit = (i + 1) % len(self.fruits)
+            self.fruits[i].update_selected_status()
+            self.fruits[(i + k) % len(self.fruits)].update_selected_status()
+            self.current_fruit = (i + k) % len(self.fruits)
 
 
 class FruitsWorld(World):
@@ -53,17 +57,42 @@ class FruitsWorld(World):
         # TODO: Create TerrainManager
 
         self._terrain = fruits.terrain.Terrain('terrain.png', (0, 0))
-        fruit1 = fruits.fruit.Fruit('tomato-sad.png', position=(200, 50))
-        fruit2 = fruits.fruit.Fruit('tomato-sad.png', position=(400, 50))
-        fruit3 = fruits.fruit.Fruit('tomato-sad.png', position=(600, 50))
-        fruit4 = fruits.fruit.Fruit('tomato-sad.png', position=(800, 50))
-        fruit5 = fruits.fruit.Fruit('tomato-sad.png', position=(1000, 50))
-        self.register(self._terrain)
-        self.register(fruit1)
-        self.register(fruit2)
-        self.register(fruit3)
-        self.register(fruit4)
-        self.register(fruit5)
 
-        self.update_current_fruit()
+        to_register = [
+            self._terrain,
+            Fruit('tomato-sad.png', player=0, position=(200, 50)),
+            Fruit('tomato-sad.png', player=0, position=(400, 50)),
+            Fruit('tomato-sad.png', player=0, position=(600, 50)),
+            Fruit('tomato-sad.png', player=0, position=(800, 50)),
+            Fruit('tomato-sad.png', player=0, position=(1000, 50)),
+            Fruit('watermellon-sad.png', player=1, position=(220, 50)),
+            Fruit('watermellon-sad.png', player=1, position=(420, 50)),
+            Fruit('watermellon-sad.png', player=1, position=(620, 50)),
+            Fruit('watermellon-sad.png', player=1, position=(820, 50)),
+            Fruit('watermellon-sad.png', player=1, position=(1020, 50)),
+        ]
 
+        for fruit in to_register:
+            self.register(fruit)
+
+        self.update_current_player()
+
+
+class Menu(World):
+
+    def __init__(self) -> None:
+        super(Menu, self).__init__()
+        #
+        #
+        #
+        # to_register = [
+        #     Option(label=pygame.font.Font("fonts/Minecrafter.Alt.ttf", 50, bold=(self._world.current_player == 0)).
+        #            render("PLAY", 1, (255, 255, 0)),
+        #            position=(int(shared.window_width / 2) - 50, int(shared.window_height / 3) + 60)),
+        #     Option(label=pygame.font.Font("fonts/Minecrafter.Alt.ttf", 50, bold=(self._world.current_player == 0)).
+        #            render("QUIT", 1, (0, 0, 0)),
+        #            position=(int(shared.window_width / 2) - 50, int(shared.window_height / 3) + 120))
+        # ]
+        #
+        # for el in to_register:
+        #     self.register(fruit)

@@ -7,6 +7,9 @@ from fruits.fruit import Fruit
 from fruits.events.explosion import ExplosionEvent
 from fruits.command import Command
 from fruits.explosion_effect import ExplosionEffect
+from fruits.scenes.menu_scene import MenuScene
+import pygame
+import fruits.shared_preferences as shared
 
 
 class MatchScene(Scene):
@@ -25,6 +28,9 @@ class MatchScene(Scene):
 
     def stop(self) -> None:
         Scene.stop(self)
+
+    def pause(self) -> None:
+        Scene.pause(self)
 
     def _user_update(self, user_commands) -> None:
         if self.status() != Scene.ALIVE:
@@ -46,8 +52,8 @@ class MatchScene(Scene):
             engine.move_fruits()
 
     def _update_final_state(self) -> None:
-        if self.status() == Scene.DONE:
-            # Scene has received signal to terminate
+        if self.status() == Scene.DONE or self.status() == Scene.PAUSED:
+            # Scene has received signal to terminate/pause
             # Just enqueue next scene and return
             self._enqueue_next_scene()
             return
@@ -56,7 +62,10 @@ class MatchScene(Scene):
 
     def _enqueue_next_scene(self):
         # TODO: Differentiate next scene of QUIT from next scene of end of match
-        self._enqueued_scene = None
+        if self.status() == Scene.PAUSED:
+            self._enqueued_scene = MenuScene(self._event_handler)
+        else:
+            self._enqueued_scene = None
 
     def draw_background(self, screen) -> None:
         if self._background is not None and self._background.mesh.image is not None:
@@ -68,6 +77,25 @@ class MatchScene(Scene):
             for drawable in drawables:
                 if drawable.mesh.image is not None:
                     drawable.mesh.draw_on(screen)
+            
+            if self._world.current_player != -1:
+                labels = [
+                    {
+                        'label': pygame.font.SysFont("bitstreamverasans", 20, bold=(self._world.current_player == 0)
+                                                     ).render("PLAYER 1", 1, (255, 0, 0)),
+                        'pos': (10, 10)
+                    },
+                    {
+                        'label': pygame.font.SysFont("bitstreamverasans", 20, bold=(self._world.current_player == 1)
+                                                     ).render("PLAYER 2", 1, (0, 128, 0)),
+                        'pos': (shared.window_width - 105, 10)
+                    }
+                ]
+
+                for label in labels:
+                    screen.blit(label['label'], label['pos'])
+                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(10, 35, 95, 20))
+                pygame.draw.rect(screen, (0, 128, 0), pygame.Rect(shared.window_width - 105, 35, 95, 20))
 
     def equip_bomb(self) -> None:
         current_fruit: Fruit = self._world.fruits[self._world.current_fruit]
@@ -105,4 +133,3 @@ class MatchScene(Scene):
             print('Explosion effect faded and not in world!')
             print(f'ExplosionEffect element:  {explosion_effect}')
             print(f'World drawables: {self._world._drawables}')
-

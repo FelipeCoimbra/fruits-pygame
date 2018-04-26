@@ -36,3 +36,7 @@ class MatchController(Controller):
             self.entity.bomb_exploded(command.bomb)
         elif isinstance(command, ExplosionEffectEvent):
             self.entity.fade_explosion_effect(command.explosion_effect)
+        elif command == Command.Q:
+            self.entity.update_current_player()
+        elif command == Command.W:
+            self.entity._Match__scene.pause()
