@@ -3,8 +3,6 @@ from fruits.match import Match
 from fruits.scenes.scene import Scene
 from fruits.world import FruitsWorld
 from fruits.scenes.menu_scene import MenuScene
-import pygame
-import fruits.shared_preferences as shared
 
 
 class MatchScene(Scene):
