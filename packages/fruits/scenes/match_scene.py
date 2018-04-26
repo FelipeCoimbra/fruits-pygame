@@ -112,7 +112,9 @@ class MatchScene(Scene):
         try:
             self._world._drawables.remove(self.__bomb)
         except ValueError:
-            self._world._drawables.remove(effect)
+            print('Bomb desequiped and not in world!')
+            print(f'Bomb element: {bomb}')
+            print(f'World drawables: {self._world.drawables}')
         self._event_handler.unsubscribe_entity(self.__bomb)
         self.__holding_fruit._blocked = False
 
@@ -121,6 +123,7 @@ class MatchScene(Scene):
             self._world._drawables.remove(bomb)
             effect = ExplosionEffect(self.__bomb.mesh.position)
             self._world._drawables.append(effect)
+            self._world.damage_fruits(bomb.mesh.position)
         except ValueError:
             print('Bomb exploded and not in world!')
             print(f'Bomb element: {bomb}')

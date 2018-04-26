@@ -11,7 +11,7 @@ class BombController(Controller):
     listening_events = [
         Command.MOUSE_LEFT_DOWN
         ]
-    init_velocity = 100
+    init_velocity = 50
 
     def __init__(self, bomb_entity):
         super(BombController, self).__init__(bomb_entity)

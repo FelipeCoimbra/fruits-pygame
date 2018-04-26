@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Iterable
+from typing import Iterable, List, Tuple
 from random import randint
 from fruits.game_object import GameObject
 import fruits.background
@@ -9,12 +9,13 @@ from fruits.fruit import Fruit
 import pygame
 from fruits.menu import Option
 import fruits.shared_preferences as shared
+from numpy import hypot
 
 
 class World(ABC):
 
     def __init__(self) -> None:
-        self._drawables = []
+        self._drawables: List[GameObject] = []
         self.fruits: List[fruits.fruit.Fruit] = []
         self.current_fruit = -1
         self.current_player = -1
@@ -47,6 +48,17 @@ class World(ABC):
             self.fruits[i].update_selected_status()
             self.fruits[(i + k) % len(self.fruits)].update_selected_status()
             self.current_fruit = (i + k) % len(self.fruits)
+
+    def damage_fruits(self, explosion_position: Tuple[int, int]) -> None:
+        e_x, e_y = explosion_position
+        explosion_radius = shared.character_width * 5.0
+        for fruit in self.fruits:
+            f_x, f_y = fruit.mesh.position
+            distance = hypot(abs(e_x - f_x), abs(e_y - f_y))
+            if distance < explosion_radius:
+                fruit.stamina -= 10 + .6 * (explosion_radius - distance)
+                if fruit.stamina <= 0:
+                    self.fruits.remove(fruit)
 
 
 class FruitsWorld(World):
