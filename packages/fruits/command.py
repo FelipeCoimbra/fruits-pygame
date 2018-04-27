@@ -12,9 +12,13 @@ class Command:
     RIGHT_END = 'RIGHT_END'
     SPACE_START = 'SPACE_START'
     SPACE_END = 'SPACE_END'
+    RIGHT_MOUSE_START = 'RIGHT_MOUSE_START'
+    LEFT_MOUSE_START = 'LEFT_MOUSE_START'
     ESCAPE = 'ESCAPE'
     TAB = 'TAB'
     QUIT = 'QUIT'
+
+    K_RIGHT_MOUSE = 3
 
 
 commands = {
@@ -28,6 +32,7 @@ commands = {
     (KEYUP, K_RIGHT): Command.RIGHT_END,
     (KEYDOWN, K_SPACE): Command.SPACE_START,
     (KEYUP, K_SPACE): Command.SPACE_END,
+    (MOUSEBUTTONDOWN, Command.K_RIGHT_MOUSE): Command.RIGHT_MOUSE_START,
     (KEYDOWN, K_ESCAPE): Command.ESCAPE,
     (KEYDOWN, K_TAB): Command.TAB,
     QUIT: Command.QUIT

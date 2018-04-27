@@ -3,6 +3,7 @@ import fruits.game
 from pygame import DOUBLEBUF, HWSURFACE
 import fruits.shared_preferences as shared
 
+
 def main():
     pygame.init()
 

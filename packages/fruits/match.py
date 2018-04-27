@@ -1,12 +1,8 @@
 from fruits.game_entity import GameEntity
 from fruits.controllers.match_controller import MatchController
-from random import randint
-from fruits.fruit import Fruit
 
 
 class Match(GameEntity):
-
-    # Match status
 
     def __init__(self, scene):
         super(Match, self).__init__()

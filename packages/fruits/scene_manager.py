@@ -12,7 +12,7 @@ class SceneManager:
         self.__physics_engine = None
         self.__change_scene(MatchScene(self.__event_handler))
 
-    def __change_scene(self, scene) -> bool:
+    def __change_scene(self, scene: Scene) -> bool:
         # Change to the desired scene if valid. Else search for last valid scene
         if scene is not None:
             self.__physics_engine = PhysicsEngine(scene._world)
@@ -25,9 +25,9 @@ class SceneManager:
         if scene is None:
             self.__handle_exit()
             return False
-        else:
-            self.__current_scene = scene
-            self.__current_scene.play()
+
+        self.__current_scene = scene
+        self.__current_scene.play()
 
         return True
 
@@ -44,7 +44,7 @@ class SceneManager:
         return True
 
     def draw_scene(self, screen) -> None:
-        # Draw scene drawable content into a given screen
+        # Draw scene's drawable content into a given screen
         if self.__current_scene is None:
             return
         self.__current_scene.draw_background(screen)

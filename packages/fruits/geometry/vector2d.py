@@ -1,5 +1,5 @@
 import math
-from typing import Union
+from typing import Union, Tuple
 import fruits.geometry.angle as angle2d
 
 
@@ -36,12 +36,15 @@ class Vector2D:
         self._ang = 0
 
     @classmethod
+    def from_cardinal_tuple(cls, coords: Tuple[float]) -> ' ':
+        vec = Vector2D(coords[0], coords[1])
+        return vec
+
+    @classmethod
     def from_polar(cls, r: float, ang: float) -> ' ':
         vec = Vector2D(0, 0)
         vec.r = r
-        print("before", vec.ang, "expected", ang)
         vec.ang = ang
-        print("result", vec.ang)
         return vec
 
     @property

@@ -3,38 +3,24 @@ from abc import ABC
 import pygame
 
 from typing import Tuple
+from fruits.game_object import GameObject
 
 
 class GameComponent(ABC):
-    def __init__(self):
-        pass
-
-    def update_world(self):
-        pass
+    def __init__(self, game_obj: GameObject) -> None:
+        self._game_object = game_obj
 
 
 class Mesh(GameComponent):
-    def __init__(self,
-                 image: str,
-                 width: float,
-                 height: float,
-                 position: Tuple[int, int] = None,
-                 orientation: float = None,
-                 vx: float = 0,
-                 vy: float = 0,
-                 ax: float = 0,
-                 ay: float = 0) -> None:
-        super(GameComponent, self).__init__()
-        self.orientation = orientation
-        self.position = position
-        self.vx = vx
-        self.vy = vy
-        self.ax = ax
-        self.ay = ay
+    def __init__(self, game_object: GameObject, image: str, width: float, height: float) -> None:
+        super().__init__(game_obj=game_object)
 
         self.__current_image = pygame.transform.scale(load_image(image), (width, height))
         self.__current_image_path = image
         self.__loaded_images = {image: self.__current_image}
+
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (self._game_object.position.x, self._game_object.position.y)
 
     @property
     def image(self) -> pygame.Surface:
@@ -47,12 +33,6 @@ class Mesh(GameComponent):
     @property
     def size(self) -> Tuple[int, int]:
         return self.image.get_size()
-
-    @property
-    def rect(self):
-        rect = self.image.get_rect()
-        rect.topleft = self.position
-        return rect
 
     @image.setter
     def image(self, new_image: pygame.Surface) -> None:
@@ -71,7 +51,9 @@ class Mesh(GameComponent):
         self.__current_image_path = image
 
     def draw_on(self, screen) -> None:
-        screen.blit(self.image, self.position)
+        x = self._game_object.position.x
+        y = self._game_object.position.y
+        screen.blit(self.image, (x, y))
 
 
 class Collider(GameComponent, pygame.sprite.Sprite):
@@ -80,23 +62,34 @@ class Collider(GameComponent, pygame.sprite.Sprite):
                  rect) -> None:
         super(GameComponent, self).__init__()
         pygame.sprite.Sprite.__init__(self)
+        self.__enabled = True
         self.__mask = mask
         self.__rect = rect
 
     @property
-    def mask(self):
-        return self.__mask
+    def enabled(self) -> bool:
+        return self.__enabled
+
+    @enabled.setter
+    def enabled(self, enabled: bool) -> None :
+        self.__enabled = enabled
 
     @property
     def rect(self):
         return self.__rect
+
+    @rect.setter
+    def rect(self,
+             rect):
+        self.__rect = rect
+
+    @property
+    def mask(self):
+        if self.__enabled:
+            return self.__mask
 
     @mask.setter
     def mask(self,
              mask: pygame.mask):
         self.__mask = mask
 
-    @rect.setter
-    def rect(self,
-             rect):
-        self.__rect = rect

@@ -4,7 +4,7 @@ from fruits.command import Command
 
 class MatchController(Controller):
 
-    def __init__(self, match_entity):
+    def __init__(self, match_entity: 'Match'):
         super(MatchController, self).__init__(match_entity)
         self.events = [Command.QUIT, Command.TAB]
 
