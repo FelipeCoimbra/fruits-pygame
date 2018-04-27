@@ -13,10 +13,9 @@ To run the game, simply use `make run` into the root of the repository, this wil
 `fruits-game.py` script.
 
 ## Commands
-- Use the arrow keys to move the selected fruit.
-- Use `X` to enter launching mode.
-- Use `ESC` to exit launching mode.
-- Use `Q` to switch teams.
-- Use `TAB` to switch fruits.
-- Use `W` to go to the main menu.
+- Use the arrow keys to move the selected fruit. A fruit may only be moved in a jumpy mood. Use 'SPACE' to jump.
+- Use `TAB` to switch between fruits of the same team.
+- Use `X` to equip bomb. Note that you can't move while the bomb is equipped.
+- Use `C` to exit launching mode.
+- Click with the mouse as to deploy the bomb in a given direction.
 
