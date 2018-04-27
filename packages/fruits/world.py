@@ -12,11 +12,13 @@ import fruits.shared_preferences as shared
 # from numpy import hypot
 from math import hypot
 from fruits.geometry.vector2d import Vector2D
+from fruits.game_event import EventHandler
 
 
 class World(ABC):
 
-    def __init__(self) -> None:
+    def __init__(self, event_handler=None) -> None:
+        self._event_handler = event_handler
         self._drawables: List[GameObject] = []
         self.fruits: List[fruits.fruit.Fruit] = []
         self.current_fruit = -1
@@ -34,6 +36,7 @@ class World(ABC):
 
     def update_current_player(self):
         self.current_player = (self.current_player + 1) % 2
+        print(f"now team {self.current_player}")
         self.update_current_fruit()
 
     def update_current_fruit(self):
@@ -65,26 +68,29 @@ class World(ABC):
 
 class FruitsWorld(World):
 
-    def __init__(self) -> None:
-        super(FruitsWorld, self).__init__()
+    def __init__(self, event_handler: EventHandler=None) -> None:
+        super().__init__(event_handler)
 
         # TODO: Create TerrainManager
 
         self._terrain = fruits.terrain.Terrain('terrain.png', Vector2D(0, 0))
+        if self._event_handler is not None:
+            self._event_handler.subscribe_entity(self._terrain)
+
         self._bomb = None
 
         to_register = [
             self._terrain,
-            Fruit('tomato-sad.png', player=0, position=Vector2D(200, 50)),
-            Fruit('tomato-sad.png', player=0, position=Vector2D(400, 50)),
-            Fruit('tomato-sad.png', player=0, position=Vector2D(600, 50)),
-            Fruit('tomato-sad.png', player=0, position=Vector2D(800, 50)),
-            Fruit('tomato-sad.png', player=0, position=Vector2D(1000, 50)),
-            Fruit('watermellon-sad.png', player=1, position=Vector2D(220, 50)),
-            Fruit('watermellon-sad.png', player=1, position=Vector2D(420, 50)),
-            Fruit('watermellon-sad.png', player=1, position=Vector2D(620, 50)),
-            Fruit('watermellon-sad.png', player=1, position=Vector2D(820, 50)),
-            Fruit('watermellon-sad.png', player=1, position=Vector2D(1020, 50)),
+            Fruit('tomato-smile.png', player=0, position=Vector2D(200, 50)),
+            Fruit('tomato-smile.png', player=0, position=Vector2D(400, 50)),
+            Fruit('tomato-smile.png', player=0, position=Vector2D(600, 50)),
+            Fruit('tomato-smile.png', player=0, position=Vector2D(800, 50)),
+            Fruit('tomato-smile.png', player=0, position=Vector2D(1000, 50)),
+            Fruit('watermellon-smile.png', player=1, position=Vector2D(220, 50)),
+            Fruit('watermellon-smile.png', player=1, position=Vector2D(420, 50)),
+            Fruit('watermellon-smile.png', player=1, position=Vector2D(620, 50)),
+            Fruit('watermellon-smile.png', player=1, position=Vector2D(820, 50)),
+            Fruit('watermellon-smile.png', player=1, position=Vector2D(1020, 50)),
         ]
 
         for fruit in to_register:
@@ -107,8 +113,8 @@ class FruitsWorld(World):
 
 class Menu(World):
 
-    def __init__(self) -> None:
-        super(Menu, self).__init__()
+    def __init__(self, event_handler=None) -> None:
+        super().__init__(event_handler)
         #
         #
         #

@@ -3,6 +3,7 @@ from typing import Iterator
 import pygame
 import fruits.command
 from fruits.events.explosion import ExplosionEvent, ToggleTeamEvent
+from fruits.explosion_effect import ExplosionEffectEvent
 
 
 class InputHandler:
@@ -37,7 +38,7 @@ class InputHandler:
                     command = event.event_class(event.position, event.bomb)
                 elif event.event_class == ToggleTeamEvent:
                     command = event.event_class()
-                else:
+                elif event.event_class == ExplosionEffectEvent:
                     command = event.event_class(event.entity)
             else:
                 command = self.__command_map.get(event.type)

@@ -7,6 +7,7 @@ from fruits.command import Command
 from fruits.events.explosion import ExplosionEvent, ToggleTeamEvent
 from fruits.geometry.vector2d import Vector2D
 
+
 class BombController(Controller):
     listening_events = [
         Command.MOUSE_LEFT_DOWN
@@ -41,3 +42,4 @@ class BombController(Controller):
 
     def launch(self) -> None:
         self.entity.velocity = Vector2D.from_polar(self.init_velocity, self.angle)
+        self.entity.launched = True

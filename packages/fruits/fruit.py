@@ -79,10 +79,10 @@ class Fruit(GameObject):
     def toggle_selected(self) -> None:
         if self.is_selected:
             self.is_selected = False
-            self.mesh.update_image(self.mesh.image_path.replace('happy', 'sad'))
+            self.mesh.update_image(self.mesh.image_path.replace('happy', 'smile'))
         else:
             self.is_selected = True
-            self.mesh.update_image(self.mesh.image_path.replace('sad', 'happy'))
+            self.mesh.update_image(self.mesh.image_path.replace('smile', 'happy'))
 
     def toggle_block_movement(self) -> None:
         if self._blocked:

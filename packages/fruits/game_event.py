@@ -40,9 +40,7 @@ class EventHandler:
 
             if event != 'MOUSEMOTION':
                 print(f'Got event: {event}')
-
-                if isinstance(event, ExplosionEffectEvent):
-                    1 + 1
+                print('Event: %15s - Subscriptions: %s' % (event, subscriptions))
 
             if subscriptions is not None:
                 self.publish_event(event, subscriptions)

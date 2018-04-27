@@ -37,6 +37,8 @@ class PhysicsEngine(object):
                     game_object.walking = False
                 else:
                     game_object.velocity *= 1/offset.r
+                if isinstance(game_object, Bomb) and game_object.frame_count > 10:
+                    game_object.hitted_terrain = True
                 # game_object.position = game_object.last_position
                 # collision_pos = Vector2D.from_cardinal_tuple(collision_tuple)
                 # collision_dir = collision_pos - game_object.position
@@ -94,7 +96,7 @@ class PhysicsEngine(object):
         for fruit in self._world.fruits:
             self.__move(fruit)
             self.__handle_terrain_collision(fruit)
-            self.flush()
+            self.flush_fruits()
             # fruit.velocity.x *= self.friction_x
 
     def apply_fields(self):
@@ -102,16 +104,17 @@ class PhysicsEngine(object):
             self._world.bomb.velocity.y += self.gravity
             self.__move(self._world.bomb)
             self.__handle_terrain_collision(self._world.bomb)
+            self._world.bomb.flush_transform()
         for fruit in self._world.fruits:
             fruit.velocity.y += self.gravity
             self.__move(fruit)
             self.__handle_terrain_collision(fruit)
-            self.flush()
+            self.flush_fruits()
 
     def apply_destruction(self):
         pass
 
-    def flush(self):
+    def flush_fruits(self):
         for fruit in self._world.fruits:
             fruit.flush_transform()
 

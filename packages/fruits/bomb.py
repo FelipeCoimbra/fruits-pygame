@@ -21,6 +21,9 @@ class Bomb(GameObject):
         super().__init__(GameObjectTransform(position=position, velocity=velocity,
                                              orientation=orientation))
         self.image = 'bomb-normal.png'
+        self.launched = False
+        self.hitted_terrain = False
+        self.exploded = False
 
         self.frame_count = 0
         self.is_selected = False
@@ -41,9 +44,10 @@ class Bomb(GameObject):
 
     def update_frame(self) -> None:
         self.frame_count += 1
-        if self.should_explode():
+        if self.should_explode() and not self.exploded:
             print('BOOOOOOOOOOM')
             self.controller.explode()
+            self.exploded = True
 
         if (2 * 60 <= self.frame_count <= 4 * 60
                 and 'normal' in self.image):
@@ -64,7 +68,7 @@ class Bomb(GameObject):
             self.mesh.update_image('bomb-red.png')
 
     def should_explode(self) -> bool:
-        return self.frame_count >= 6 * 60
+        return self.launched and (self.frame_count >= 6 * 60 or self.hitted_terrain)
 
     def move(self, collided: bool) -> None:
         if collided:
@@ -79,6 +83,3 @@ class Bomb(GameObject):
 
         self.collider.rect = self.mesh.rect
         self.collider.mask = pygame.mask.from_surface(self.mesh.image)
-
-    def update_selected_status(self):
-        pass

@@ -79,21 +79,19 @@ class Collider(GameComponent, pygame.sprite.Sprite):
         self.__enabled = enabled
 
     @property
-    def rect(self):
+    def rect(self) -> pygame.Rect:
         return self.__rect
 
     @rect.setter
-    def rect(self,
-             rect):
+    def rect(self, rect) -> None:
         self.__rect = rect
 
     @property
-    def mask(self):
+    def mask(self) -> pygame.mask:
         if self.__enabled:
             return self.__mask
 
     @mask.setter
-    def mask(self,
-             mask: pygame.mask):
+    def mask(self, mask: pygame.mask) -> None:
         self.__mask = mask
 

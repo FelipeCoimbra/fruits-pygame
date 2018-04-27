@@ -16,7 +16,7 @@ from functools import reduce
 class MatchScene(Scene):
     def __init__(self, event_handler) -> None:
         super(MatchScene, self).__init__(event_handler,
-                                         FruitsWorld(),
+                                         FruitsWorld(event_handler),
                                          Background('blue-background.png'))
         self.__match = Match(self)
         self.waiting_launching = False
@@ -44,7 +44,6 @@ class MatchScene(Scene):
                             or c in (Command.MOUSE_LEFT_DOWN, Command.ESCAPE))]
             self._event_handler.process_events(commands)
 
-
     def _apply_physics(self, engine) -> None:
         if self.status() == Scene.ALIVE:
             if self.user_commands_enabled():
@@ -54,6 +53,8 @@ class MatchScene(Scene):
             engine.apply_fields()
             if self.__match.bomb is not None:
                 self.__match.bomb.update_frame()
+            if self.__match.explosion_eff is not None:
+                self.__match.explosion_eff.update_frame()
             engine.apply_destruction()
 
     def _update_final_state(self) -> None:
@@ -137,8 +138,10 @@ class MatchScene(Scene):
         try:
             self._world._drawables.remove(bomb)
             effect = ExplosionEffect(self.__match.bomb.position)
-            self._world._drawables.append(effect)
+            self._world.register(effect)
+            self.__match.explosion_eff = effect
             self._world.damage_fruits(bomb.position)
+            self._world._terrain.destroy(effect)
         except ValueError:
             print('Bomb exploded and not in world!')
             print(f'Bomb element: {bomb}')
@@ -147,6 +150,7 @@ class MatchScene(Scene):
     def remove_effect(self, explosion_effect: ExplosionEffect) -> None:
         try:
             self._world._drawables.remove(explosion_effect)
+            self.__match.explosion_eff = None
         except ValueError:
             print('Explosion effect faded and not in world!')
             print(f'ExplosionEffect element:  {explosion_effect}')

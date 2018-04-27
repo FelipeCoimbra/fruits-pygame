@@ -18,12 +18,12 @@ class ExplosionEffect(GameObject):
         super().__init__(GameObjectTransform(position=position, velocity=velocity,
                                              orientation=orientation))
 
-        size = shared.character_width * 2
+        size = shared.character_width * 4
         # pos = tuple(map(lambda x: int(x - size / 2), pos))
         self.position -= Vector2D(size / 2, size / 2)
 
         self.frame_count = 0
-        self.mesh = Mesh(game_object=self, image='white-circle.png', width=size, height=size)
+        self.mesh = Mesh(game_object=self, image='red_circle.png', width=size, height=size)
 
     def init(self) -> None:
         pass
@@ -52,3 +52,6 @@ class ExplosionEffect(GameObject):
 class ExplosionEffectEvent:
     def __init__(self, explosion_effect: ExplosionEffect) -> None:
         self.explosion_effect = explosion_effect
+
+    def __str__(self) -> str:
+        return f'{self.__class__.__name__}'

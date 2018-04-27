@@ -11,6 +11,7 @@ class Match(GameEntity):
         self.__teams: list = []
         self.__scene = scene
         self.__bomb = None
+        self.__explosion_eff = None
         self.__holding_fruit = None
 
         self.attach_controller(MatchController(self))
@@ -22,6 +23,14 @@ class Match(GameEntity):
     @bomb.setter
     def bomb(self, bomb):
         self.__bomb = bomb
+
+    @property
+    def explosion_eff(self):
+        return self.__explosion_eff
+
+    @explosion_eff.setter
+    def explosion_eff(self, eff):
+        self.__explosion_eff = eff
 
     @property
     def holding_fruit(self):
