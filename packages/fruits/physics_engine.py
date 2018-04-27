@@ -5,6 +5,7 @@ import fruits.shared_preferences as shared
 from fruits.game_object import GameObject
 from fruits.game_components import Collider
 import pygame
+from fruits.bomb import Bomb
 import math, copy
 
 
@@ -55,6 +56,19 @@ class PhysicsEngine(object):
                 min_translation = mid_tranlation
             else:
                 max_translation = mid_tranlation
+
+        for drawable in self._world.drawables:
+            if hasattr(drawable, 'always_update'):
+                drawable.update_frame()
+
+            if isinstance(drawable, Bomb):
+                drawable.mesh.vy += self.gravity
+                drawable.move(collided=False)
+                if pygame.sprite.collide_mask(self._world._terrain.collider, 
+                                              drawable.collider) is not None:
+                    drawable.move(collided=True)
+                else:
+                    drawable.mesh.vx *= self.friction_x
 
             moving_obj.position = initial_position
         # if moving_obj.is_selected:

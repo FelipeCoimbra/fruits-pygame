@@ -16,6 +16,9 @@ class Fruit(GameObject):
         super().__init__(GameObjectTransform(position))
 
         self.is_selected = False
+        self._blocked = False
+        self.player = player
+        self.stamina = 100
         self.__walking = False
         self.__jumping = False
 
@@ -73,3 +76,6 @@ class Fruit(GameObject):
         else:
             self.is_selected = True
             self.mesh.update_image(self.mesh.image_path.replace('sad', 'happy'))
+
+    def block_movement(self) -> None:
+        self._blocked = True

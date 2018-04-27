@@ -1,6 +1,12 @@
 from pygame import *
 
 
+class MouseButtons:
+    LEFT = 'LEFT'
+    MIDDLE = 'MIDDLE'
+    RIGHT = 'RIGHT'
+
+
 class Command:
     UP_START = 'UP_START'
     UP_END = 'UP_END'
@@ -15,8 +21,19 @@ class Command:
     RIGHT_MOUSE_START = 'RIGHT_MOUSE_START'
     LEFT_MOUSE_START = 'LEFT_MOUSE_START'
     ESCAPE = 'ESCAPE'
+    ENTER = 'ENTER'
     TAB = 'TAB'
+    Q = 'Q'
+    W = 'W'
     QUIT = 'QUIT'
+    MOUSE_LEFT_UP = 'MOUSE_LEFT_UP'
+    MOUSE_LEFT_DOWN = 'MOUSE_LEFT_DOWN'
+    MOUSE_MIDDLE_UP = 'MOUSE_MIDDLE_UP'
+    MOUSE_MIDDLE_DOWN = 'MOUSE_MIDDLE_DOWN'
+    MOUSE_RIGHT_UP = 'MOUSE_RIGHT_UP'
+    MOUSE_RIGHT_DOWN = 'MOUSE_RIGHT_DOWN'
+    MOUSEMOTION = 'MOUSEMOTION'
+    X_KEY = 'X_KEY'
 
     K_RIGHT_MOUSE = 3
 
@@ -35,5 +52,16 @@ commands = {
     (MOUSEBUTTONDOWN, Command.K_RIGHT_MOUSE): Command.RIGHT_MOUSE_START,
     (KEYDOWN, K_ESCAPE): Command.ESCAPE,
     (KEYDOWN, K_TAB): Command.TAB,
+    (MOUSEBUTTONDOWN, MouseButtons.LEFT): Command.MOUSE_LEFT_DOWN,
+    (MOUSEBUTTONUP, MouseButtons.LEFT): Command.MOUSE_LEFT_UP,
+    (MOUSEBUTTONDOWN, MouseButtons.MIDDLE): Command.MOUSE_MIDDLE_DOWN,
+    (MOUSEBUTTONUP, MouseButtons.MIDDLE): Command.MOUSE_MIDDLE_UP,
+    (MOUSEBUTTONDOWN, MouseButtons.RIGHT): Command.MOUSE_RIGHT_DOWN,
+    (MOUSEBUTTONUP, MouseButtons.RIGHT): Command.MOUSE_RIGHT_UP,
+    MOUSEMOTION: Command.MOUSEMOTION,
+    K_x: Command.X_KEY,
+    (KEYDOWN, K_q): Command.Q,
+    (KEYDOWN, K_w): Command.W,
+    (KEYDOWN, K_g): Command.ENTER,
     QUIT: Command.QUIT
-    }
+}

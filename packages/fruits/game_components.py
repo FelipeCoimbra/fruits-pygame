@@ -15,6 +15,9 @@ class Mesh(GameComponent):
     def __init__(self, game_object: GameObject, image: str, width: float, height: float) -> None:
         super().__init__(game_obj=game_object)
 
+        self.width = width
+        self.height = height
+
         self.__current_image = pygame.transform.scale(load_image(image), (width, height))
         self.__current_image_path = image
         self.__loaded_images = {image: self.__current_image}
@@ -45,7 +48,8 @@ class Mesh(GameComponent):
         if loaded:
             self.__current_image = loaded
         else:
-            image_surface = load_image(image)
+            image_surface = pygame.transform.scale(load_image(image), (self.width, self.height))
+
             self.__loaded_images[image] = image_surface
             self.__current_image = image_surface
         self.__current_image_path = image
