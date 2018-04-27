@@ -51,11 +51,11 @@ class World(ABC):
             self.fruits[(i + k) % len(self.fruits)].toggle_selected()
             self.current_fruit = (i + k) % len(self.fruits)
 
-    def damage_fruits(self, explosion_position: Tuple[int, int]) -> None:
-        e_x, e_y = explosion_position
+    def damage_fruits(self, explosion_position: Vector2D) -> None:
+        e_x, e_y = explosion_position.x, explosion_position.y
         explosion_radius = shared.character_width * 5.0
         for fruit in self.fruits:
-            f_x, f_y = fruit.mesh.position
+            f_x, f_y = fruit.position.x, fruit.position.y
             distance = hypot(abs(e_x - f_x), abs(e_y - f_y))
             if distance < explosion_radius:
                 fruit.stamina -= 10 + .6 * (explosion_radius - distance)
@@ -71,6 +71,7 @@ class FruitsWorld(World):
         # TODO: Create TerrainManager
 
         self._terrain = fruits.terrain.Terrain('terrain.png', Vector2D(0, 0))
+        self._bomb = None
 
         to_register = [
             self._terrain,
@@ -94,6 +95,14 @@ class FruitsWorld(World):
     @property
     def terrain(self):
         return self._terrain
+
+    @property
+    def bomb(self):
+        return self._bomb
+
+    @bomb.setter
+    def bomb(self, val):
+        self._bomb = val
 
 
 class Menu(World):

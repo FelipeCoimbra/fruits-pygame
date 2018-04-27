@@ -10,7 +10,26 @@ class Match(GameEntity):
         super(Match, self).__init__()
         self.__teams: list = []
         self.__scene = scene
+        self.__bomb = None
+        self.__holding_fruit = None
+
         self.attach_controller(MatchController(self))
+
+    @property
+    def bomb(self):
+        return self.__bomb
+
+    @bomb.setter
+    def bomb(self, bomb):
+        self.__bomb = bomb
+
+    @property
+    def holding_fruit(self):
+        return self.__holding_fruit
+
+    @holding_fruit.setter
+    def holding_fruit(self, fruit):
+        self.__holding_fruit = fruit
 
     def interrupt(self):
         # Ends match suddenly
@@ -21,7 +40,9 @@ class Match(GameEntity):
 
     def disable_user_input(self) -> None:
         self.__scene.enable_user_commands(False)
-        self.__scene.waiting_launching = False
+
+    def enable_user_input(self) -> None:
+        self.__scene.enable_user_commands(True)
 
     def equip_bomb(self) -> None:
         self.disable_user_input()

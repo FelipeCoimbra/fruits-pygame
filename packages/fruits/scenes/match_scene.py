@@ -37,21 +37,23 @@ class MatchScene(Scene):
         if self.status() != Scene.ALIVE:
             return
 
-        if self.user_commands_enabled():
-            self._event_handler.process_events(user_commands)
-        elif self.waiting_launching:
+        self._event_handler.process_events(user_commands)
+        if self.waiting_launching:
             commands = [c for c in user_commands
                         if (isinstance(c, ExplosionEvent)
                             or c in (Command.MOUSE_LEFT_DOWN, Command.ESCAPE))]
             self._event_handler.process_events(commands)
-        else:
-            commands = [c for c in user_commands if isinstance(c, ExplosionEvent)]
-            self._event_handler.process_events(commands)
+
 
     def _apply_physics(self, engine) -> None:
         if self.status() == Scene.ALIVE:
-            engine.apply_user_commands()
+            if self.user_commands_enabled():
+                engine.apply_user_commands()
+            else:
+                engine.negate()
             engine.apply_fields()
+            if self.__match.bomb is not None:
+                self.__match.bomb.update_frame()
             engine.apply_destruction()
 
     def _update_final_state(self) -> None:
@@ -111,31 +113,32 @@ class MatchScene(Scene):
 
     def equip_bomb(self) -> None:
         current_fruit: Fruit = self._world.fruits[self._world.current_fruit]
-        current_fruit.block_movement()
+        current_fruit.toggle_block_movement()
         fruit_x, fruit_y = current_fruit.position.x, current_fruit.position.y
         print(f'Creating bomb at: {fruit_x}, {fruit_y - 5}')
         bomb = Bomb(Vector2D(fruit_x, fruit_y - 5))
+        self._world.bomb = bomb
         self._world.register(bomb)
         self._event_handler.subscribe_entity(bomb)
-        self.__bomb = bomb
-        self.__holding_fruit = current_fruit
+        self.__match.bomb = bomb
+        self.__match.holding_fruit = current_fruit
 
     def desequip_bomb(self) -> None:
         try:
-            self._world._drawables.remove(self.__bomb)
+            self._world._drawables.remove(self.__match.bomb)
         except ValueError:
             print('Bomb desequiped and not in world!')
-            print(f'Bomb element: {bomb}')
+            print(f'Bomb element: ')
             print(f'World drawables: {self._world.drawables}')
-        self._event_handler.unsubscribe_entity(self.__bomb)
-        self.__holding_fruit._blocked = False
+        self._event_handler.unsubscribe_entity(self.__match.bomb)
+        self.__match.holding_fruit._blocked = False
 
     def bomb_exploded(self, bomb) -> None:
         try:
             self._world._drawables.remove(bomb)
-            effect = ExplosionEffect(self.__bomb.mesh.position)
+            effect = ExplosionEffect(self.__match.bomb.position)
             self._world._drawables.append(effect)
-            self._world.damage_fruits(bomb.mesh.position)
+            self._world.damage_fruits(bomb.position)
         except ValueError:
             print('Bomb exploded and not in world!')
             print(f'Bomb element: {bomb}')

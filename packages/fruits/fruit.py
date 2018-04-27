@@ -57,7 +57,6 @@ class Fruit(GameObject):
         else:
             self.velocity -= Vector2D.from_polar(4, self.orientation)
             # self.velocity = Vector2D(-4 * math.cos(self.orientation), -4 * math.sin(self.orientation))
-        print("made true")
         self.__walking = True
 
     def stop_walk(self, forward: bool) -> None:
@@ -69,7 +68,6 @@ class Fruit(GameObject):
         else:
             self.velocity += Vector2D.from_polar(4, self.orientation)
             # self.velocity = Vector2D(-4 * math.cos(self.orientation), -4 * math.sin(self.orientation))
-        print("made false")
         self.__walking = False
 
     def jump(self) -> None:
@@ -86,5 +84,8 @@ class Fruit(GameObject):
             self.is_selected = True
             self.mesh.update_image(self.mesh.image_path.replace('sad', 'happy'))
 
-    def block_movement(self) -> None:
-        self._blocked = True
+    def toggle_block_movement(self) -> None:
+        if self._blocked:
+            self._blocked = False
+        else:
+            self._blocked = True

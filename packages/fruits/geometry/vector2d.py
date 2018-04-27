@@ -36,7 +36,7 @@ class Vector2D:
         self._ang = 0
 
     @classmethod
-    def from_cardinal_tuple(cls, coords: Tuple[float]) -> ' ':
+    def from_cardinal_tuple(cls, coords: Union[Tuple[float, float], Tuple[int, int]]) -> ' ':
         vec = Vector2D(coords[0], coords[1])
         return vec
 

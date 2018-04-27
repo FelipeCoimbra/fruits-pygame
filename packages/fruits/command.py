@@ -25,6 +25,7 @@ class Command:
     TAB = 'TAB'
     Q = 'Q'
     W = 'W'
+    C = 'C'
     QUIT = 'QUIT'
     MOUSE_LEFT_UP = 'MOUSE_LEFT_UP'
     MOUSE_LEFT_DOWN = 'MOUSE_LEFT_DOWN'
@@ -60,6 +61,7 @@ commands = {
     (MOUSEBUTTONUP, MouseButtons.RIGHT): Command.MOUSE_RIGHT_UP,
     MOUSEMOTION: Command.MOUSEMOTION,
     K_x: Command.X_KEY,
+    (KEYDOWN, K_c): Command.C,
     (KEYDOWN, K_q): Command.Q,
     (KEYDOWN, K_w): Command.W,
     (KEYDOWN, K_RETURN): Command.ENTER,

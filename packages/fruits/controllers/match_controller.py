@@ -1,6 +1,6 @@
 from fruits.controllers.controller import Controller
 from fruits.command import Command
-from fruits.events.explosion import ExplosionEvent
+from fruits.events.explosion import ExplosionEvent, ToggleTeamEvent
 from fruits.explosion_effect import ExplosionEffectEvent
 
 
@@ -9,7 +9,7 @@ class MatchController(Controller):
         Command.QUIT, Command.TAB, Command.X_KEY,
         Command.MOUSE_LEFT_DOWN, ExplosionEvent,
         Command.ESCAPE, ExplosionEffectEvent,
-        Command.Q, Command.W
+        Command.Q, Command.W, Command.C
     ]
 
     def __init__(self, match_entity: 'Match'):
@@ -25,19 +25,19 @@ class MatchController(Controller):
             if not self.equipped:
                 self.equipped = True
                 self.entity.equip_bomb()
-        elif command == Command.ESCAPE:
+        elif command == Command.C:
             if self.equipped:
                 self.entity.desequip_bomb()
                 self.equipped = False
         elif command == Command.MOUSE_LEFT_DOWN:
             if self.equipped:
-                self.entity.disable_user_input()
+                # self.entity.disable_user_input()
                 self.equipped = False
         elif isinstance(command, ExplosionEvent):
             self.entity.bomb_exploded(command.bomb)
         elif isinstance(command, ExplosionEffectEvent):
             self.entity.fade_explosion_effect(command.explosion_effect)
-        elif command == Command.Q:
+        elif isinstance(command, ToggleTeamEvent):
             self.entity.update_current_player()
         # elif command == Command.W:
         #     self.entity._Match__scene.pause()

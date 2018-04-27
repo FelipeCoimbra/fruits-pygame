@@ -28,7 +28,6 @@ class PhysicsEngine(object):
     def __handle_terrain_collision(self, game_object: GameObject):
         if game_object.collider is not None and game_object.collider.enabled:
             collision_tuple = pygame.sprite.collide_mask(self._world.terrain.collider, game_object.collider)
-            print("collision at", collision_tuple)
             if collision_tuple is not None:
                 offset = game_object.position-game_object.last_position
                 game_object.position = game_object.last_position
@@ -99,6 +98,10 @@ class PhysicsEngine(object):
             # fruit.velocity.x *= self.friction_x
 
     def apply_fields(self):
+        if self._world.bomb is not None:
+            self._world.bomb.velocity.y += self.gravity
+            self.__move(self._world.bomb)
+            self.__handle_terrain_collision(self._world.bomb)
         for fruit in self._world.fruits:
             fruit.velocity.y += self.gravity
             self.__move(fruit)
@@ -111,4 +114,9 @@ class PhysicsEngine(object):
     def flush(self):
         for fruit in self._world.fruits:
             fruit.flush_transform()
+
+    def negate(self):
+        for fruit in self._world.fruits:
+            fruit.position = fruit.last_position
+            fruit.velocity = fruit.last_velocity
 

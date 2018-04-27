@@ -2,7 +2,8 @@ from typing import Tuple
 from fruits.game_components import Collider
 import pygame
 
-from fruits.game_object import GameObject
+from fruits.geometry.vector2d import Vector2D
+from fruits.game_object import GameObject, GameObjectTransform
 import fruits.shared_preferences as shared
 from fruits.game_components import Mesh
 
@@ -11,20 +12,18 @@ class ExplosionEffect(GameObject):
     always_update = True
 
     def __init__(self,
-                 position: Tuple[int, int] = (0, 0),
+                 position: Vector2D = None,
                  orientation: float = None,
-                 vx: float = 0,
-                 vy: float = 0,
-                 ax: float = 0,
-                 ay: float = 0) -> None:
-        super(GameObject, self).__init__()
-        size = shared.character_width * 5
-        position = tuple(map(lambda x: int(x - size / 2), position))
+                 velocity: Vector2D = None) -> None:
+        super().__init__(GameObjectTransform(position=position, velocity=velocity,
+                                             orientation=orientation))
+
+        size = shared.character_width * 2
+        # pos = tuple(map(lambda x: int(x - size / 2), pos))
+        self.position -= Vector2D(size / 2, size / 2)
 
         self.frame_count = 0
-        self.mesh = Mesh(image='white-circle.png', position=position,
-                         orientation=orientation, vx=vx, vy=vy, ax=ax, ay=ay,
-                         width=size, height=size)
+        self.mesh = Mesh(game_object=self, image='white-circle.png', width=size, height=size)
 
     def init(self) -> None:
         pass
