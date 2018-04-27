@@ -100,7 +100,7 @@ class PhysicsEngine(object):
             # fruit.velocity.x *= self.friction_x
 
     def apply_fields(self):
-        if self._world.bomb is not None:
+        if self._world.bomb is not None and self._world.bomb.launched:
             self._world.bomb.velocity.y += self.gravity
             self.__move(self._world.bomb)
             self.__handle_terrain_collision(self._world.bomb)

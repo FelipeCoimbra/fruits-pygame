@@ -71,15 +71,16 @@ class Bomb(GameObject):
         return self.launched and (self.frame_count >= 6 * 60 or self.hitted_terrain)
 
     def move(self, collided: bool) -> None:
-        if collided:
-            self.mesh.vx = 0
-            self.mesh.vy = 0
-            self.mesh.position = self.mesh.last_position
-        else:
-            self.mesh.last_position = self.mesh.position
-            self.mesh.position = (
-                (self.mesh.position[0] + self.mesh.vx + .5 * self.mesh.ax) % shared.window_width,
-                (self.mesh.position[1] + self.mesh.vy + .5 * self.mesh.ay))
+        if self.launched:
+            if collided:
+                self.mesh.vx = 0
+                self.mesh.vy = 0
+                self.mesh.position = self.mesh.last_position
+            else:
+                self.mesh.last_position = self.mesh.position
+                self.mesh.position = (
+                    (self.mesh.position[0] + self.mesh.vx + .5 * self.mesh.ax) % shared.window_width,
+                    (self.mesh.position[1] + self.mesh.vy + .5 * self.mesh.ay))
 
-        self.collider.rect = self.mesh.rect
-        self.collider.mask = pygame.mask.from_surface(self.mesh.image)
+            self.collider.rect = self.mesh.rect
+            self.collider.mask = pygame.mask.from_surface(self.mesh.image)

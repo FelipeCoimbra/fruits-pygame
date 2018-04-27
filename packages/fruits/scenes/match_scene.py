@@ -130,8 +130,8 @@ class MatchScene(Scene):
         current_fruit: Fruit = self._world.fruits[self._world.current_fruit]
         current_fruit.toggle_block_movement()
         fruit_x, fruit_y = current_fruit.position.x, current_fruit.position.y
-        print(f'Creating bomb at: {fruit_x}, {fruit_y - 5}')
-        bomb = Bomb(Vector2D(fruit_x, fruit_y - 5))
+        print(f'Creating bomb at: {fruit_x}, {fruit_y - 20}')
+        bomb = Bomb(Vector2D(fruit_x, fruit_y - 20))
         self._world.bomb = bomb
         self._world.register(bomb)
         self._event_handler.subscribe_entity(bomb)
