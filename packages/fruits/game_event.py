@@ -40,6 +40,7 @@ class EventHandler:
 
             if event != 'MOUSEMOTION':
                 print(f'Got event: {event}')
+
                 if isinstance(event, ExplosionEffectEvent):
                     1 + 1
 

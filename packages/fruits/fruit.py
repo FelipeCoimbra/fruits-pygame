@@ -37,29 +37,37 @@ class Fruit(GameObject):
     def jumping(self, jumping):
         self.__jumping = jumping
 
+    @property
+    def walking(self):
+        return self.__walking
+
+    @walking.setter
+    def walking(self, walking):
+        self.__walking = walking
+
     def init(self) -> None:
         pass
 
     def walk(self, forward: bool) -> None:
-        if self.__walking:
+        if not self.__jumping or self.__walking:
             return
         if forward:
             self.velocity += Vector2D.from_polar(4, self.orientation)
             # self.velocity = Vector2D(4*math.cos(self.orientation), 4*math.sin(self.orientation))
         else:
-            self.velocity += -1*Vector2D.from_polar(4, self.orientation)
+            self.velocity -= Vector2D.from_polar(4, self.orientation)
             # self.velocity = Vector2D(-4 * math.cos(self.orientation), -4 * math.sin(self.orientation))
         print("made true")
         self.__walking = True
 
     def stop_walk(self, forward: bool) -> None:
-        if not self.__walking:
+        if True or not self.__jumping:
             return
         if forward:
             self.velocity -= Vector2D.from_polar(4, self.orientation)
             # self.velocity = Vector2D(4*math.cos(self.orientation), 4*math.sin(self.orientation))
         else:
-            self.velocity -= -1*Vector2D.from_polar(4, self.orientation)
+            self.velocity += Vector2D.from_polar(4, self.orientation)
             # self.velocity = Vector2D(-4 * math.cos(self.orientation), -4 * math.sin(self.orientation))
         print("made false")
         self.__walking = False
@@ -67,7 +75,7 @@ class Fruit(GameObject):
     def jump(self) -> None:
         if self.__jumping:
             return
-        self.velocity.y += 20
+        self.velocity.y -= 7
         self.__jumping = True
 
     def toggle_selected(self) -> None:

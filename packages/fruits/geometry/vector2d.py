@@ -26,8 +26,8 @@ class Vector2D:
     def _update_cartesian(self) -> None:
         if self._invalid:
             return
-        self.x = self._r * math.cos(self._ang)
-        self.y = self._r * math.sin(self._ang)
+        self._x = self._r * math.cos(self._ang)
+        self._y = self._r * math.sin(self._ang)
 
     def reset(self) -> None:
         self._x = 0

@@ -54,7 +54,6 @@ class MatchScene(Scene):
             engine.apply_user_commands()
             engine.apply_fields()
             engine.apply_destruction()
-            engine.flush()
 
     def _update_final_state(self) -> None:
         if self.status() == Scene.DONE or self.status() == Scene.PAUSED:

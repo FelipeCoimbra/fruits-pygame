@@ -22,36 +22,36 @@ class GameObjectTransform:
         return self.__position
 
     @position.setter
-    def position(self, value: Vector2D):
-        if value is not None:
-            self.__position = value
+    def position(self, val: Vector2D):
+        if val is not None:
+            self.__position = val
 
     @property
     def velocity(self):
         return self.__velocity
 
     @velocity.setter
-    def velocity(self, value: Vector2D):
-        if value is not None:
-            self.__velocity = value
+    def velocity(self, val: Vector2D):
+        if val is not None:
+            self.__velocity = val
 
     @property
     def orientation(self):
         return self.__orientation
 
     @orientation.setter
-    def orientation(self, value: float):
-        if value is not None:
-            self.__orientation = angle2d.fit(value, angle2d.MODE_ZERO_2PI)
+    def orientation(self, val: float):
+        if val is not None:
+            self.__orientation = angle2d.fit(val, angle2d.MODE_ZERO_2PI)
 
     @property
     def angular_vel(self):
         return self.__angular_vel
 
     @angular_vel.setter
-    def angular_vel(self, value: float):
-        if value is not None:
-            self.__angular_vel = value
+    def angular_vel(self, val: float):
+        if val is not None:
+            self.__angular_vel = val
 
 
 class GameObject(GameEntity, abc.ABC):
@@ -82,8 +82,8 @@ class GameObject(GameEntity, abc.ABC):
         return self.transform.position
 
     @position.setter
-    def position(self, value: Vector2D):
-        self.transform.position = value
+    def position(self, val: Vector2D):
+        self.transform.position = val
 
     @property
     def last_velocity(self):
@@ -94,8 +94,8 @@ class GameObject(GameEntity, abc.ABC):
         return self.transform.velocity
 
     @velocity.setter
-    def velocity(self, value: Vector2D):
-        self.transform.velocity = value
+    def velocity(self, val: Vector2D):
+        self.transform.velocity = val
 
     @property
     def last_orientation(self):
@@ -106,8 +106,8 @@ class GameObject(GameEntity, abc.ABC):
         return self.transform.orientation
 
     @orientation.setter
-    def orientation(self, value: float):
-        self.transform.orientation = value
+    def orientation(self, val: float):
+        self.transform.orientation = val
 
     @property
     def last_angular_vel(self):
@@ -118,8 +118,8 @@ class GameObject(GameEntity, abc.ABC):
         return self.transform.angular_vel
 
     @angular_vel.setter
-    def angular_vel(self, value: float):
-        self.transform.angular_vel = value
+    def angular_vel(self, val: float):
+        self.transform.angular_vel = val
 
     @abc.abstractmethod
     def init(self) -> None:

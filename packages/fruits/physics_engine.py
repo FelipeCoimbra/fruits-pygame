@@ -12,7 +12,7 @@ import math, copy
 class PhysicsEngine(object):
     def __init__(self,
                  world: FruitsWorld):
-        self.gravity = 10
+        self.gravity = 1
         self.friction_x = 0.5
         self.friction_y = 0.6
         self._world = world
@@ -28,16 +28,32 @@ class PhysicsEngine(object):
     def __handle_terrain_collision(self, game_object: GameObject):
         if game_object.collider is not None and game_object.collider.enabled:
             collision_tuple = pygame.sprite.collide_mask(self._world.terrain.collider, game_object.collider)
+            print("collision at", collision_tuple)
             if collision_tuple is not None:
-                game_object.velocity.y = 0
-                return
+                offset = game_object.position-game_object.last_position
+                game_object.position = game_object.last_position
+                if offset.r < 5:
+                    game_object.velocity = Vector2D(0, 0)
+                    game_object.jumping = False
+                    game_object.walking = False
+                else:
+                    game_object.velocity *= 1/offset.r
+                # game_object.position = game_object.last_position
+                # collision_pos = Vector2D.from_cardinal_tuple(collision_tuple)
+                # collision_dir = collision_pos - game_object.position
+                # collision_dir.r = 1
+                # perp_vel = Vector2D(collision_dir.x, collision_pos.y)
+                # if game_object.velocity.x > 0:
+                #     perp_vel.ang -= math.pi / 2
+                # else:
+                #     perp_vel.ang += math.pi / 2
+                # perp_vel.r = perp_vel.r*math.sin(collision_dir.ang - game_object.velocity.ang)
+                # game_object.velocity = perp_vel
+                # return
                 # First bring the object to the contact point
-                translation_vector = game_object.position - game_object.last_position
-                translation_vector -= self.__binary_search_static_collision(translation_vector, game_object,
-                                                                           self._world.terrain.collider)
-
-                # Then add an impulse depending on the collision elasticity
-                collision_point = Vector2D.from_cardinal_tuple(collision_tuple)
+                # translation_vector = game_object.position - game_object.last_position
+                # translation_vector -= self.__binary_search_static_collision(translation_vector, game_object,
+                #                                                            self._world.terrain.collider)
 
     def __binary_search_static_collision(self, total_translation: Vector2D, moving_obj: GameObject,
                                          static_collider: Collider) -> Vector2D:
@@ -77,15 +93,17 @@ class PhysicsEngine(object):
 
     def apply_user_commands(self) -> None:
         for fruit in self._world.fruits:
-            self.__handle_terrain_collision(fruit)
             self.__move(fruit)
+            self.__handle_terrain_collision(fruit)
+            self.flush()
             # fruit.velocity.x *= self.friction_x
 
     def apply_fields(self):
         for fruit in self._world.fruits:
             fruit.velocity.y += self.gravity
-            self.__handle_terrain_collision(fruit)
             self.__move(fruit)
+            self.__handle_terrain_collision(fruit)
+            self.flush()
 
     def apply_destruction(self):
         pass

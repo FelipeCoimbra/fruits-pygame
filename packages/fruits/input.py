@@ -18,6 +18,9 @@ class InputHandler:
 
             elif event.type in (pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP):
                 left, middle, right = pygame.mouse.get_pressed()
+                posx, posy = pygame.mouse.get_pos()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    print("mouse at ", posx, posy)
 
                 if left:
                     mouse_button = fruits.command.MouseButtons.LEFT
