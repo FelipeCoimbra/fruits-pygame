@@ -22,6 +22,7 @@ class Fruit(GameObject):
         self.stamina = 100
         self.__walking = False
         self.__jumping = False
+        self.__dead = False
 
         self.attach_controller(FruitController(self))
 

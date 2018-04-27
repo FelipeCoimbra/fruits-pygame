@@ -64,6 +64,7 @@ class World(ABC):
                 fruit.stamina -= 10 + .6 * (explosion_radius - distance)
                 if fruit.stamina <= 0:
                     self.fruits.remove(fruit)
+                    self._drawables.remove(fruit)
 
 
 class FruitsWorld(World):

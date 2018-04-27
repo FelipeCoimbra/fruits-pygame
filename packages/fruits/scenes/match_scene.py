@@ -58,6 +58,18 @@ class MatchScene(Scene):
             engine.apply_destruction()
 
     def _update_final_state(self) -> None:
+        teamzero = 0
+        teamone = 1
+        for fruit in self._world.fruits:
+            if fruit.player == 0:
+                teamzero = teamzero + 1
+            if fruit.player == 1:
+                teamone = teamone + 1
+            if fruit.velocity.r > 50:
+                self._world.fruits.remove(fruit)
+                self._world.drawables.remove(fruit)
+        if teamone == 0 or teamzero == 0:
+            self.stop()
         if self.status() == Scene.DONE or self.status() == Scene.PAUSED:
             # Scene has received signal to terminate/pause
             # Just enqueue next scene and return
@@ -113,6 +125,8 @@ class MatchScene(Scene):
                 pygame.draw.rect(screen, (0, 128, 0), pygame.Rect(shared.window_width - 105, 35, player_1_width, 20))
 
     def equip_bomb(self) -> None:
+        if self.__match.bomb is not None:
+            return
         current_fruit: Fruit = self._world.fruits[self._world.current_fruit]
         current_fruit.toggle_block_movement()
         fruit_x, fruit_y = current_fruit.position.x, current_fruit.position.y
@@ -132,14 +146,19 @@ class MatchScene(Scene):
             print(f'Bomb element: ')
             print(f'World drawables: {self._world.drawables}')
         self._event_handler.unsubscribe_entity(self.__match.bomb)
+        self.__match.bomb = None
         self.__match.holding_fruit._blocked = False
 
     def bomb_exploded(self, bomb) -> None:
         try:
             self._world._drawables.remove(bomb)
+            self._event_handler.unsubscribe_entity(bomb)
+
             effect = ExplosionEffect(self.__match.bomb.position)
             self._world.register(effect)
             self.__match.explosion_eff = effect
+            self.__match.bomb = None
+
             self._world.damage_fruits(bomb.position)
             self._world._terrain.destroy(effect)
         except ValueError:

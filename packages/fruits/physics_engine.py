@@ -37,7 +37,7 @@ class PhysicsEngine(object):
                     game_object.walking = False
                 else:
                     game_object.velocity *= 1/offset.r
-                if isinstance(game_object, Bomb) and game_object.frame_count > 10:
+                if isinstance(game_object, Bomb) and game_object.frame_count > 30:
                     game_object.hitted_terrain = True
                 # game_object.position = game_object.last_position
                 # collision_pos = Vector2D.from_cardinal_tuple(collision_tuple)
