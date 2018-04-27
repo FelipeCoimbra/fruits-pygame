@@ -40,6 +40,8 @@ class InputHandler:
                     command = event.event_class()
                 elif event.event_class == ExplosionEffectEvent:
                     command = event.event_class(event.entity)
+                else:
+                    command = event.event_class(event)
             else:
                 command = self.__command_map.get(event.type)
 
