@@ -17,5 +17,5 @@ To run the game, simply use `make run` into the root of the repository, this wil
 - Use `TAB` to switch between fruits of the same team.
 - Use `X` to equip bomb. Note that you can't move while the bomb is equipped.
 - Use `C` to exit launching mode.
-- Click with the mouse as to deploy the bomb in a given direction.
+- Click with the mouse as to deploy the bomb in a given direction when in launching mode.
 
