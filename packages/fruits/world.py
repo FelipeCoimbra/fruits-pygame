@@ -9,7 +9,8 @@ from fruits.fruit import Fruit
 import pygame
 from fruits.menu import Option
 import fruits.shared_preferences as shared
-from numpy import hypot
+# from numpy import hypot
+from math import hypot
 from fruits.geometry.vector2d import Vector2D
 
 
@@ -39,15 +40,15 @@ class World(ABC):
         if self.current_fruit == -1:
             self.current_fruit = randint(0, len(self.fruits) - 1)
             self.current_player = self.fruits[self.current_fruit].player
-            self.fruits[self.current_fruit].update_selected_status()
+            self.fruits[self.current_fruit].toggle_selected()
         elif len(self.fruits) >= 2:
             i = self.current_fruit
             k = 1
             while self.fruits[(i + k) % len(self.fruits)].player != self.current_player:
                 k += 1
 
-            self.fruits[i].update_selected_status()
-            self.fruits[(i + k) % len(self.fruits)].update_selected_status()
+            self.fruits[i].toggle_selected()
+            self.fruits[(i + k) % len(self.fruits)].toggle_selected()
             self.current_fruit = (i + k) % len(self.fruits)
 
     def damage_fruits(self, explosion_position: Tuple[int, int]) -> None:
@@ -69,29 +70,30 @@ class FruitsWorld(World):
 
         # TODO: Create TerrainManager
 
-        self._terrain = fruits.terrain.Terrain('terrain.png', (0, 0))
+        self._terrain = fruits.terrain.Terrain('terrain.png', Vector2D(0, 0))
 
         to_register = [
             self._terrain,
-            Fruit('tomato-sad.png', player=0, position=(200, 50)),
-            Fruit('tomato-sad.png', player=0, position=(400, 50)),
-            Fruit('tomato-sad.png', player=0, position=(600, 50)),
-            Fruit('tomato-sad.png', player=0, position=(800, 50)),
-            Fruit('tomato-sad.png', player=0, position=(1000, 50)),
-            Fruit('watermellon-sad.png', player=1, position=(220, 50)),
-            Fruit('watermellon-sad.png', player=1, position=(420, 50)),
-            Fruit('watermellon-sad.png', player=1, position=(620, 50)),
-            Fruit('watermellon-sad.png', player=1, position=(820, 50)),
-            Fruit('watermellon-sad.png', player=1, position=(1020, 50)),
+            Fruit('tomato-sad.png', player=0, position=Vector2D(200, 50)),
+            Fruit('tomato-sad.png', player=0, position=Vector2D(400, 50)),
+            Fruit('tomato-sad.png', player=0, position=Vector2D(600, 50)),
+            Fruit('tomato-sad.png', player=0, position=Vector2D(800, 50)),
+            Fruit('tomato-sad.png', player=0, position=Vector2D(1000, 50)),
+            Fruit('watermellon-sad.png', player=1, position=Vector2D(220, 50)),
+            Fruit('watermellon-sad.png', player=1, position=Vector2D(420, 50)),
+            Fruit('watermellon-sad.png', player=1, position=Vector2D(620, 50)),
+            Fruit('watermellon-sad.png', player=1, position=Vector2D(820, 50)),
+            Fruit('watermellon-sad.png', player=1, position=Vector2D(1020, 50)),
         ]
 
         for fruit in to_register:
             self.register(fruit)
+
+        self.update_current_player()
+
     @property
     def terrain(self):
         return self._terrain
-
-        self.update_current_player()
 
 
 class Menu(World):

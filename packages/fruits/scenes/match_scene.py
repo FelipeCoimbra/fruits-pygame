@@ -8,6 +8,7 @@ from fruits.events.explosion import ExplosionEvent
 from fruits.command import Command
 from fruits.explosion_effect import ExplosionEffect
 from fruits.scenes.menu_scene import MenuScene
+from fruits.geometry.vector2d import Vector2D
 import pygame
 import fruits.shared_preferences as shared
 from functools import reduce
@@ -113,9 +114,9 @@ class MatchScene(Scene):
     def equip_bomb(self) -> None:
         current_fruit: Fruit = self._world.fruits[self._world.current_fruit]
         current_fruit.block_movement()
-        fruit_x, fruit_y = current_fruit.mesh.position
+        fruit_x, fruit_y = current_fruit.position.x, current_fruit.position.y
         print(f'Creating bomb at: {fruit_x}, {fruit_y - 5}')
-        bomb = Bomb((fruit_x, fruit_y - 5))
+        bomb = Bomb(Vector2D(fruit_x, fruit_y - 5))
         self._world.register(bomb)
         self._event_handler.subscribe_entity(bomb)
         self.__bomb = bomb

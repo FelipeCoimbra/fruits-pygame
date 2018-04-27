@@ -29,12 +29,12 @@ class PhysicsEngine(object):
         if game_object.collider is not None and game_object.collider.enabled:
             collision_tuple = pygame.sprite.collide_mask(self._world.terrain.collider, game_object.collider)
             if collision_tuple is not None:
+                game_object.velocity.y = 0
+                return
                 # First bring the object to the contact point
                 translation_vector = game_object.position - game_object.last_position
                 translation_vector -= self.__binary_search_static_collision(translation_vector, game_object,
                                                                            self._world.terrain.collider)
-                while True:
-                    game_object.position = game_object.last_position + translation_vector
 
                 # Then add an impulse depending on the collision elasticity
                 collision_point = Vector2D.from_cardinal_tuple(collision_tuple)

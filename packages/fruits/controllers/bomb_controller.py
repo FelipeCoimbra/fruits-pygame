@@ -18,12 +18,12 @@ class BombController(Controller):
         self.angle = 0
 
     def receive(self, command):
-        pos_x, pos_y = self.entity.mesh.position
+        pos_x, pos_y = self.entity.position.x, self.entity.position.y
         if command == Command.MOUSE_LEFT_DOWN:
             mos_x, mos_y = pygame.mouse.get_pos()
             self.angle = atan2(mos_y - pos_y, mos_x - pos_x)
             print('>>>>>>>>>> Launching bomb! <<<<<<<<<<')
-            print(f'>>> Bomb position: {self.entity.mesh.position}')
+            print(f'>>> Bomb position: {self.entity.position}')
             print(f'>>> Mouse position: {pygame.mouse.get_pos()}')
             print(f'>>> Angle: {self.angle}')
             self.launch()

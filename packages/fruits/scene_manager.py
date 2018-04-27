@@ -41,7 +41,10 @@ class SceneManager:
         if self.__current_scene is None:
             return False
 
-        self.__current_scene.update(user_commands, self.__physics_engine)
+        if isinstance(self.__current_scene, MenuScene):
+            self.__current_scene.update(user_commands)
+        else:
+            self.__current_scene.update(user_commands, self.__physics_engine)
 
         if self.__current_scene.status() == Scene.DONE or self.__current_scene.status() == Scene.PAUSED:
             new_scene = self.__current_scene.next_scene()

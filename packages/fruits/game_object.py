@@ -6,10 +6,10 @@ from fruits.game_entity import GameEntity
 
 class GameObjectTransform:
     def __init__(self,  position: Vector2D = None, velocity: Vector2D = None,
-                 orientation_angle: float = 0.0, angular_vel: float = 0.0):
+                 orientation: float = 0.0, angular_vel: float = 0.0):
         self.__position = position
         self.__velocity = velocity
-        self.__orientation = orientation_angle
+        self.__orientation = orientation
         self.__angular_vel = angular_vel
 
         if self.__position is None:

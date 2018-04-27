@@ -12,6 +12,7 @@ from fruits.geometry.vector2d import Vector2D
 class Fruit(GameObject):
     def __init__(self,
                  image: str,
+                 player: int,
                  position: Vector2D = None) -> None:
         super().__init__(GameObjectTransform(position))
 
