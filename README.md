@@ -10,9 +10,7 @@ This project depends on:
 
 ## How-to run the game
 To run the game, simply use `make run` into the root of the repository, this will execute the
-`fruits-game.py` script. Although is already available to run, this should be used only for development purposes,
-because python is too slow a great experience. For play the game, first, build the executable with
-`make full-build`, that will compile the game into a executable (using the [nuitka](nuitka.net) compiler).
+`fruits-game.py` script.
 
 ## Commands
 - Use the arrow keys to move the selected fruit.
