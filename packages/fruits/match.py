@@ -12,9 +12,6 @@ class Match(GameEntity):
         self.__scene = scene
         self.attach_controller(MatchController(self))
 
-    def __set_conf(self, conf):
-        self.__conf = conf.team_count
-
     def interrupt(self):
         # Ends match suddenly
         self.__scene.stop()

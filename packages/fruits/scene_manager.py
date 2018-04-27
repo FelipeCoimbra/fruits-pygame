@@ -1,12 +1,10 @@
 from typing import Optional, List
 
-from fruits.scenes.scene import Scene
 from fruits.scenes.match_scene import MatchScene
 from fruits.game_event import EventHandler
 from fruits.physics_engine import PhysicsEngine
 from fruits.scenes.menu_scene import MenuScene
-
-
+from fruits.scenes.scene import Scene
 
 class SceneManager:
     def __init__(self) -> None:
@@ -14,8 +12,8 @@ class SceneManager:
         self.__scene_stack: List[Scene] = []
         self.__event_handler = EventHandler()
         self.__physics_engine = None
-        self.__change_scene(MatchScene(self.__event_handler))
-        self.__menu_scene = MenuScene(self.__event_handler)
+        self.__change_scene(MenuScene(self.__event_handler))
+        # self.__menu_scene = MenuScene(self.__event_handler)
 
     def __change_scene(self, scene: Scene) -> bool:
         # Change to the desired scene if valid. Else search for last valid scene
@@ -46,7 +44,7 @@ class SceneManager:
         else:
             self.__current_scene.update(user_commands, self.__physics_engine)
 
-        if self.__current_scene.status() == Scene.DONE or self.__current_scene.status() == Scene.PAUSED:
+        if self.__current_scene.status() in [Scene.DONE, Scene.PAUSED]:
             new_scene = self.__current_scene.next_scene()
             return self.__change_scene(new_scene)
 

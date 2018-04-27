@@ -62,6 +62,6 @@ commands = {
     K_x: Command.X_KEY,
     (KEYDOWN, K_q): Command.Q,
     (KEYDOWN, K_w): Command.W,
-    (KEYDOWN, K_g): Command.ENTER,
+    (KEYDOWN, K_RETURN): Command.ENTER,
     QUIT: Command.QUIT
 }

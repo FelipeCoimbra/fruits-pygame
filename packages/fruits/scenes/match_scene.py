@@ -7,7 +7,6 @@ from fruits.fruit import Fruit
 from fruits.events.explosion import ExplosionEvent
 from fruits.command import Command
 from fruits.explosion_effect import ExplosionEffect
-from fruits.scenes.menu_scene import MenuScene
 from fruits.geometry.vector2d import Vector2D
 import pygame
 import fruits.shared_preferences as shared

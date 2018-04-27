@@ -20,6 +20,10 @@ class Menu(GameEntity):
         # Ends match suddenly
         self.__scene.stop()
 
+    def new_match(self):
+        self.__scene.new_match()
+        self.__scene.pause()
+
 
 class Option(GameObject):
     def __init__(self,

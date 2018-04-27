@@ -1,12 +1,13 @@
 from fruits.background import Background
-from fruits.scenes.scene import Scene
 from fruits.menu import Menu
+from fruits.scenes.scene import Scene
 from fruits.world import Menu as MenuWorld
 from pygame.mixer import music
 from pygame import mixer
 import wave
 import pygame
 import fruits.shared_preferences as shared
+from fruits.scenes.match_scene import MatchScene
 
 
 class MenuScene(Scene):
@@ -25,14 +26,20 @@ class MenuScene(Scene):
 
     def play(self) -> None:
         music.play()
+        self._enqueued_scene = None
         Scene.play(self)
 
     def stop(self) -> None:
-        music.stop()
+        # music.stop()
         Scene.stop(self)
 
     def pause(self) -> None:
         Scene.pause(self)
+        print("pausou menu")
+
+    def new_match(self) -> None:
+        print("criou nova matchscene")
+        self._enqueued_scene = MatchScene(self._event_handler)
 
     def _user_update(self, user_commands) -> None:
         if self.status() == Scene.ALIVE and self.user_commands_enabled():
@@ -68,13 +75,13 @@ class MenuScene(Scene):
             labels = [
                 {
                     'label': pygame.font.Font("fonts/Minecrafter.Alt.ttf", 50, bold=(self._world.current_player == 0)
-                                                 ).render("PLAY", 1, (255, 255, 0)),
-                    'pos': (int(shared.window_width/2) - 50, int(shared.window_height/3) + 60)
+                                                 ).render("PRESS ENTER TO START MATCH", 1, (255, 255, 0)),
+                    'pos': (int(shared.window_width/2) - 420, int(shared.window_height/3) + 60)
                 },
                 {
                     'label': pygame.font.Font("fonts/Minecrafter.Alt.ttf", 50, bold=(self._world.current_player == 1)
-                                                 ).render("QUIT", 1, (0, 0, 0)),
-                    'pos': (int(shared.window_width/2) - 50, int(shared.window_height/3) + 150)
+                                                 ).render("PRESS Q TO QUIT", 1, (0, 0, 0)),
+                    'pos': (int(shared.window_width/2) - 420, int(shared.window_height/3) + 150)
                 }
             ]
 
